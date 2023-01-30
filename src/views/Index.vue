@@ -1,5 +1,5 @@
 <template>
-  <div v-title data-title="ForFun Find Yourself">
+  
     <el-container>
 
       <el-main class="me-articles">
@@ -13,16 +13,10 @@
         <card-me class="me-area"></card-me>
         <card-tag :tags="hotTags"></card-tag>
 
-        <card-article cardHeader="最热文章" :articles="hotArticles"></card-article>
-
-        <card-archive cardHeader="文章归档" :archives="archives"></card-archive>
-
-        <card-article cardHeader="最新文章" :articles="newArticles"></card-article>
-
       </el-aside>
 
     </el-container>
-  </div>
+  
 </template>
 
 <script>
@@ -78,15 +72,40 @@
 
       },
       getHotTags() {
-        let that = this
+        
+        let that = this;        
+        var color= ['primary', 'success', 'warning', 'danger', 'info', 'text']
+        var temp_data = [];
+        /*
         getHotTags().then(data => {
-          that.hotTags = data.data
+          temp_data = data.data
         }).catch(error => {
           if (error !== 'error') {
             that.$message({type: 'error', message: '最热标签加载失败!', showClose: true})
           }
 
         })
+        */
+        temp_data = [
+          {
+            id: 0,
+            tagname:"test1"
+          },{
+            id: 1,
+            tagname:"test2"
+          },{
+            id: 2,
+            tagname:"3"
+          },{
+            id: 3,
+            tagname:"t"
+          }
+        ]
+        for(var i=0; i<temp_data.length; i++) {
+          temp_data[i].color = color[i%6];
+        }
+        that.hotTags = temp_data;
+        console.log(this.hotTags)
       },
       listArchives() {
         listArchives().then((data => {
@@ -112,12 +131,12 @@
 <style scoped>
 
   .el-container {
-    width: 960px;
+    width: 100%;
   }
 
   .el-aside {
-    margin-left: 20px;
-    width: 260px;
+    margin-right: 5%;
+    width: 100%;
   }
 
   .el-main {

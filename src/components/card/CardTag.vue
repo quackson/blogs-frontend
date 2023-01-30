@@ -1,14 +1,13 @@
 <template>
   <el-card :body-style="{ padding: '8px 18px' }">
-    <div slot="header" class="me-tag-header">
-      <span>最热标签</span>
-      <a @click="moreTags" class="me-pull-right me-tag-more">查看全部</a>
+    <div slot="header" class="me-tag-header" style="font-size:35px;">
+      <span>HOT</span>
     </div>
 
     <ul class="me-tag-list">
       <li class="me-tag-item" v-for="t in tags" :key="t.id">
         <!--type="primary"-->
-        <el-button @click="tag(t.id)" size="mini" type="primary" round plain>{{t.tagname}}</el-button>
+        <el-button @click="tag(t.id)" size="medium" type="danger" style="font-size:18px;margin-top:1px;margin-left:1px;" round plain>{{t.tagname}}</el-button>
       </li>
     </ul>
   </el-card>
@@ -22,14 +21,12 @@
       tags: Array
     },
     data() {
-      return {}
+      return {
+      }
     },
     methods: {
-      moreTags() {
-        this.$router.push('/tag/all')
-      },
       tag(id) {
-        this.$router.push({path: `/tag/${id}`})
+        this.$router.push({path: `/search/tag&${id}`})
       }
     }
   }

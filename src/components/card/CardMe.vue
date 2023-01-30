@@ -16,12 +16,20 @@
 <script>
   export default {
     name: 'CardMe',
+    created() {
+      
+    },
     data() {
       return {
         qq: {title: 'QQ', message: '919431514'},
         github: {
           title: 'github',
           message: '<a target="_blank" href="https://github.com/shimh-develop">https://github.com/shimh-develop</a>'
+        },
+        information:{
+          name:'',
+          collage:'',
+          contact:''
         }
       }
     },
