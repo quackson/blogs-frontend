@@ -34,3 +34,10 @@ export function getTagDetail(id) {
     method: 'get',
   })
 }
+
+export function getTags() {
+  return request({
+    url: '/public/tag/',
+    method: 'get',
+  })
+}

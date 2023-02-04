@@ -3,22 +3,21 @@
     <div class="me-article-header">
 
       <a @click="view(id)" class="me-article-title">{{title}}</a>
-      <span class="me-pull-right me-article-count">
+      <span class="me-pull-right me-article-count" style="font-size: 15px;">
 	    	<i class="el-icon-view"></i>&nbsp;{{visits}}
-        <i class="el-icon-view"></i>&nbsp;{{likes}}
-        <i class="el-icon-view"></i>&nbsp;{{unreviewedCount}}
+        <i class="el-icon-star-off"></i>&nbsp;{{likes}}
 	    </span>
     </div>
 
     <div class="me-artile-description">
-      {{summary}}
+      {{content}}
     </div>
     <div class="me-article-footer">
-	  	<span class="me-article-author">
+	  	<span class="me-article-author" style="font-size: 15px;">
 	    	<i class="me-icon-author"></i>&nbsp;{{author.name}}
 	    </span>
 
-      <el-tag v-for="t in tags" :key="t.name" size="mini" type="success">{{t.name}}</el-tag>
+      <el-tag v-for="t in tags" :key="t.name" size="mini" type="success"  style="font-size: 15px;">{{t.name}}</el-tag>
 
     </div>
   </el-card>
@@ -71,7 +70,7 @@
   }
 
   .me-article-title {
-    font-weight: 600;
+    font-size: 20px;
   }
 
   .me-article-icon {

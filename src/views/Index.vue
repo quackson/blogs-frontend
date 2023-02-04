@@ -13,6 +13,34 @@
         <card-me :userInfo="userInfo" :userMe="userMe" class="me-area" style="position:fixed; width:18%;"></card-me>
         <card-tag :tags="hotTags" class="me-tags" style="margin-top:15%;position:fixed; width:18%;"></card-tag>
 
+        <el-card class="search" style="margin-top:25%;position:fixed; width:18%;">
+          <h1 style="font-size:30px;">MultiSearch
+            <span style="margin-left:30%;" text-color="#696969"><i class="el-icon-search" @click="search"></i></span>
+          </h1>
+          <el-col>搜索文本<el-input class="searchText" v-model="inputC" style="width:60%;margin-left:10%;"></el-input></el-col>
+          <el-tag
+            :key="tag"
+            v-for="tag in dynamicTags"
+            closable
+            :disable-transitions="false"
+            @close="handleClose(tag)"
+            style="margin-top:5%;">
+            {{tag}}
+          </el-tag>
+          <el-input
+            class="input-new-tag"
+            v-if="inputVisible"
+            v-model="inputValue"
+            ref="saveTagInput"
+            size="small"
+            @keyup.enter.native="handleInputConfirm"
+            @blur="handleInputConfirm"
+            style="margin-top:5%;"
+          >
+          </el-input>
+          <el-button v-else class="button-new-tag" size="small" @click="showInput"style="margin-top:5%;">+ New Tag</el-button>
+        </el-card>
+
       </el-aside>
 
     </el-container>
@@ -49,9 +77,32 @@
         archives: [],
         userInfo:{},
         userMe:{},
+        inputC:"",
+        dynamicTags: ['标签一', '标签二', '标签三'],
+        inputVisible: false,
+        inputValue: ''
       }
     },
     methods: {
+      handleClose(tag) {
+        this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
+      },
+
+      showInput() {
+        this.inputVisible = true;
+        this.$nextTick(_ => {
+          this.$refs.saveTagInput.$refs.input.focus();
+        });
+      },
+
+      handleInputConfirm() {
+        let inputValue = this.inputValue;
+        if (inputValue) {
+          this.dynamicTags.push(inputValue);
+        }
+        this.inputVisible = false;
+        this.inputValue = '';
+      },
       getMeInfo() {
         this.userMe = {
           'userName':'testme',
@@ -60,6 +111,12 @@
           'userId':0,
           'graduate':'Peking University'
         }
+      },
+      search() {
+        console.log("search");
+        console.log(this.dynamicTags)
+        this.inputC= "";
+        this.dynamicTags=[]
       },
       getPersonalInfo() {
         let that = this
@@ -228,5 +285,20 @@
 
   .me-tags {
     margin-top:10%;
+  }
+  .el-tag + .el-tag {
+    margin-left: 10px;
+  }
+  .button-new-tag {
+    margin-left: 10px;
+    height: 32px;
+    line-height: 30px;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  .input-new-tag {
+    width: 90px;
+    margin-left: 10px;
+    vertical-align: bottom;
   }
 </style>

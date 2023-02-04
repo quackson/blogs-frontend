@@ -145,7 +145,8 @@
               unreviewedCount: 12
           }
         ]
-        for(var i=0; i<10; i=i+1){
+        articles = articles.concat(that.articles)
+        for(var i=0; i<3; i=i+1){
           articles = articles.concat(articles)
         }
         that.articles = articles

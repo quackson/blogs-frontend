@@ -16,9 +16,8 @@
                 background-color="#D3D3D3" 
                 text-color="#696969"
                 active-text-color="#000000">
-          <el-menu-item index="/category/all" style = "font-size:20px;">Trending</el-menu-item>
-          <el-menu-item index="/tag/all" style = "font-size:20px;">标签</el-menu-item>
-
+          <el-menu-item index="/" style = "font-size:20px;">推荐</el-menu-item>
+          <el-menu-item index="/alltags" style = "font-size:20px;">全部标签</el-menu-item>
         </el-menu>
       </el-col>
 
