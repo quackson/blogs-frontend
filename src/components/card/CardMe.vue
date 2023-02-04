@@ -1,14 +1,21 @@
 <template>
   <el-card>
-    <h1 class="me-author-name">shimh</h1>
-    <div class="me-author-description">
-      <span><i class="el-icon-location-outline"></i> &nbsp;山东&济南</span>
-      <span><i class="me-icon-job"></i> &nbsp;java开发工程师</span>
+    <h1 class="me-author-name">{{userInfo.userName}}</h1>
+    <div class="follow" style="text-align:center;" v-if="userId>=0">
+      <el-button type="primary" plain size="medium" style="font-size:18px;">Follow</el-button>
     </div>
-    <div class="me-author-tool">
-      <i @click="showTool(qq)" :title="qq.title" class="me-icon-QQ"></i>
-      <i @click="showTool(github)" :title="github.title" class="me-icon-github"></i>
+    <div class="me-author-description" style="text-align:center;margin-top:5%;margin-bottom:10%;">
+    <el-col>
+      <span><i class="el-icon-message"></i>{{userInfo.email}}</span>
+    </el-col>
+    <el-col>
+      <span><i class="el-icon-phone"></i>{{userInfo.contactInfo}}</span>
+    </el-col>
+    <el-col>
+      <span><i class="el-icon-location-outline"></i>{{userInfo.graduate}}</span>
+    </el-col>
     </div>
+
   </el-card>
 
 </template>
@@ -16,37 +23,32 @@
 <script>
   export default {
     name: 'CardMe',
-    created() {
-      
+    props: {
+      userInfo: {
+          'userName':String,
+          'email':String,
+          'contactInfo':String,
+          'userId':Number,
+          'graduate':String
+        },
+      userId:Number
+    },
+    created() {     
     },
     data() {
       return {
-        qq: {title: 'QQ', message: '919431514'},
-        github: {
-          title: 'github',
-          message: '<a target="_blank" href="https://github.com/shimh-develop">https://github.com/shimh-develop</a>'
-        },
-        information:{
-          name:'',
-          collage:'',
-          contact:''
-        }
       }
     },
     methods: {
-      showTool(tool) {
-        this.$message({
-          duration: 0,
-          showClose: true,
-          dangerouslyUseHTMLString: true,
-          message: '<strong>' + tool.message + '</strong>'
-        });
-      }
     }
   }
 </script>
 
 <style scoped>
+  .follow {
+    margin-top:5%;
+    margin-bottom:5%;
+  }
   .me-author-name {
     text-align: center;
     font-size: 30px;
@@ -54,7 +56,7 @@
   }
 
   .me-author-description {
-    padding: 8px 0;
+    padding-left: 10px 0;
   }
 
   .me-icon-job {

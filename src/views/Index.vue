@@ -10,8 +10,8 @@
 
       <el-aside>
 
-        <card-me class="me-area"></card-me>
-        <card-tag :tags="hotTags"></card-tag>
+        <card-me :userInfo="userInfo" :userId="userId" class="me-area"></card-me>
+        <card-tag :tags="hotTags" class="me-tags"></card-tag>
 
       </el-aside>
 
@@ -27,6 +27,7 @@
   import ArticleScrollPage from '@/views/common/ArticleScrollPage'
 
   import {getArticles, getHotArtices, getNewArtices} from '@/api/article'
+  import {getPersonalInfo} from '@/api/user'
   import {getHotTags} from '@/api/tag'
   import {listArchives} from '@/api/article'
 
@@ -37,16 +38,43 @@
       this.getNewArtices()
       this.getHotTags()
       this.listArchives()
+      this.getPersonalInfo()
+      this.getMeInfo()
     },
     data() {
       return {
         hotTags: [],
         hotArticles: [],
         newArticles: [],
-        archives: []
+        archives: [],
+        userInfo:{},
+        userId:-1
       }
     },
     methods: {
+      getMeInfo() {
+        this.userId = 0
+      },
+      getPersonalInfo() {
+        let that = this
+        /*
+        getPersonalInfo().then(data => {
+          that.userInfo = data.data
+        }).catch(error => {
+          if (error !== 'error') {
+            that.$message({type: 'error', message: '用户信息加载失败!', showClose: true})
+          }
+        */
+        that.userInfo = {
+          'userName':'testuser',
+          'email':'17xxx@pku.edu.cn',
+          'contactInfo':123123123,
+          'userId':1,
+          'graduate':'Peking University'
+        }
+
+        console.log(this.userInfo)
+      },
       getHotArtices() {
         let that = this
         getHotArtices().then(data => {
@@ -150,5 +178,9 @@
 
   .el-card:not(:first-child) {
     margin-top: 20px;
+  }
+
+  .me-tags {
+    margin-top:10%;
   }
 </style>

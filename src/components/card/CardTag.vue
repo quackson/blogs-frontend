@@ -33,7 +33,6 @@
 </script>
 
 <style scoped>
-
   .me-tag-header {
     font-weight: 600;
   }
