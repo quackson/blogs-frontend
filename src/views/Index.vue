@@ -10,8 +10,8 @@
 
       <el-aside>
 
-        <card-me :userInfo="userInfo" :userId="userId" class="me-area"></card-me>
-        <card-tag :tags="hotTags" class="me-tags"></card-tag>
+        <card-me :userInfo="userInfo" :userMe="userMe" class="me-area" style="position:fixed; width:18%;"></card-me>
+        <card-tag :tags="hotTags" class="me-tags" style="margin-top:15%;position:fixed; width:18%;"></card-tag>
 
       </el-aside>
 
@@ -48,12 +48,18 @@
         newArticles: [],
         archives: [],
         userInfo:{},
-        userId:-1
+        userMe:{},
       }
     },
     methods: {
       getMeInfo() {
-        this.userId = 0
+        this.userMe = {
+          'userName':'testme',
+          'email':'17xxx@pku.edu.cn',
+          'contactInfo':123123123,
+          'userId':0,
+          'graduate':'Peking University'
+        }
       },
       getPersonalInfo() {
         let that = this
@@ -78,7 +84,11 @@
       getHotArtices() {
         let that = this
         getHotArtices().then(data => {
-          that.hotArticles = data.data
+          if (data.code == 0) {
+            that.hotArticles = data.PostInfo;
+          }else{
+            that.$message({type: 'error', message: data.reason, showClose: true})
+          }
         }).catch(error => {
           if (error !== 'error') {
             that.$message({type: 'error', message: '最热文章加载失败!', showClose: true})
@@ -117,17 +127,53 @@
         temp_data = [
           {
             id: 0,
-            tagname:"test1"
+            name:"test1",
+            owner:{
+                      id: 0,
+                      name:  "test",
+                      avatarUrl:  "url",
+                      contact: "123123123",
+                      email: "123@pku.edu.cn",
+                      graduate: "peking University"
+                  },
+            description:"xxxxxxxxxxxxxx"
           },{
             id: 1,
-            tagname:"test2"
+            name:"t",
+            owner:{
+                      id: 0,
+                      name:  "test",
+                      avatarUrl:  "url",
+                      contact: "123123123",
+                      email: "123@pku.edu.cn",
+                      graduate: "peking University"
+                  },
+            description:"xxxxxxxxxxxxxx"
           },{
             id: 2,
-            tagname:"3"
+            name:"test1",
+            owner:{
+                      id: 0,
+                      name:  "test",
+                      avatarUrl:  "url",
+                      contact: "123123123",
+                      email: "123@pku.edu.cn",
+                      graduate: "peking University"
+                  },
+            description:"xxxxxxxxxxxxxx"
           },{
             id: 3,
-            tagname:"t"
-          }
+            name:"test1",
+            owner:{
+                      id: 0,
+                      name:  "test",
+                      avatarUrl:  "url",
+                      contact: "123123123",
+                      email: "123@pku.edu.cn",
+                      graduate: "peking University"
+                  },
+            description:"xxxxxxxxxxxxxx"
+          },
         ]
         for(var i=0; i<temp_data.length; i++) {
           temp_data[i].color = color[i%6];

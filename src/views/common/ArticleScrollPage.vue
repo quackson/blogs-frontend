@@ -75,10 +75,10 @@
       getArticles() {
         let that = this
         that.loading = true
-
+        /*
         getArticles(that.query, that.innerPage).then(data => {
 
-          let newArticles = data.data
+          let newArticles = data.content
           if (newArticles && newArticles.length > 0) {
             that.innerPage.pageNumber += 1
             that.articles = that.articles.concat(newArticles)
@@ -93,7 +93,62 @@
         }).finally(() => {
           that.loading = false
         })
-
+        */
+        that.innerPage.pageNumber += 1
+        var articles = [
+            {
+              id:0,
+              title: "article1",
+              content: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+              author: {
+                  id: 0,
+                  name: "testuser1",
+                  avatarUrl: "xxxx",
+                  contact: 'xxxxxxx',
+                  email: "xxxxxxxxxx",
+                  graduate: "xxxxxxxxxx"
+              },
+              tags: [
+                {
+                  id: 0,
+                  name:"test1",
+                  owner:{
+                            id: 0,
+                            name:  "test",
+                            avatarUrl:  "url",
+                            contact: "123123123",
+                            email: "123@pku.edu.cn",
+                            graduate: "peking University"
+                        },
+                  description:"xxxxxxxxxxxxxx"
+                },{
+                  id: 1,
+                  name:"t",
+                  owner:{
+                            id: 0,
+                            name:  "test",
+                            avatarUrl:  "url",
+                            contact: "123123123",
+                            email: "123@pku.edu.cn",
+                            graduate: "peking University"
+                        },
+                  description:"xxxxxxxxxxxxxx"
+              }],
+              avatar: "xxxxxxxxxxx",
+              comments: "xxxxxxxxxxxxxxx",
+              permission: {
+                  isPublic: true ,
+                  needReviewComment:  true
+              },
+              visits: 123,
+              likes: 11,
+              unreviewedCount: 12
+          }
+        ]
+        for(var i=0; i<10; i=i+1){
+          articles = articles.concat(articles)
+        }
+        that.articles = articles
       }
     },
     components: {

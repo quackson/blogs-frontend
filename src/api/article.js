@@ -18,10 +18,14 @@ export function getArticles(query, page) {
   })
 }
 
-export function getHotArtices() {
+export function getHotArtices(page, perpage) {
   return request({
-    url: '/articles/hot',
-    method: 'get'
+    url: '/public/post',
+    method: 'post',
+     params: {
+      page: page,
+      perpage:perpage
+    }
   })
 }
 

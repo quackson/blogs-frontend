@@ -1,14 +1,12 @@
 <template>
-  <el-card class="me-area" :body-style="{ padding: '16px' }">
+  <el-card class="me-area" :body-style="{ padding: '16px'}" style="width:90%;margin-left:5%;margin-right:5%;">
     <div class="me-article-header">
 
       <a @click="view(id)" class="me-article-title">{{title}}</a>
-      <el-button v-if="weight > 0" class="me-article-icon" type="text">置顶</el-button>
       <span class="me-pull-right me-article-count">
-	    	<i class="me-icon-comment"></i>&nbsp;{{commentCounts}}
-	    </span>
-      <span class="me-pull-right me-article-count">
-	    	<i class="el-icon-view"></i>&nbsp;{{viewCounts}}
+	    	<i class="el-icon-view"></i>&nbsp;{{visits}}
+        <i class="el-icon-view"></i>&nbsp;{{likes}}
+        <i class="el-icon-view"></i>&nbsp;{{unreviewedCount}}
 	    </span>
     </div>
 
@@ -17,14 +15,10 @@
     </div>
     <div class="me-article-footer">
 	  	<span class="me-article-author">
-	    	<i class="me-icon-author"></i>&nbsp;{{author.nickname}}
+	    	<i class="me-icon-author"></i>&nbsp;{{author.name}}
 	    </span>
 
-      <el-tag v-for="t in tags" :key="t.tagname" size="mini" type="success">{{t.tagname}}</el-tag>
-
-      <span class="me-pull-right me-article-count">
-	    	<i class="el-icon-time"></i>&nbsp;{{createDate | format}}
-	    </span>
+      <el-tag v-for="t in tags" :key="t.name" size="mini" type="success">{{t.name}}</el-tag>
 
     </div>
   </el-card>
@@ -36,15 +30,27 @@
   export default {
     name: 'ArticleItem',
     props: {
-      id: Number,
-      weight: Number,
+      id:Number,
       title: String,
-      commentCounts: Number,
-      viewCounts: Number,
-      summary: String,
-      author: Object,
+      content: String,
+      author: {
+          id: Number,
+          name: String,
+          avatarUrl: String,
+          contact: String,
+          email: String,
+          graduate: String
+      },
       tags: Array,
-      createDate: String
+      avatar: String,
+      comments: String,
+      permission: {
+          isPublic: Boolean ,
+          needReviewComment:  Boolean
+      },
+      visits: Number,
+      likes: Number,
+      unreviewedCount: Number
     },
     data() {
       return {}
