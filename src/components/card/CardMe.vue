@@ -1,5 +1,8 @@
 <template>
-  <el-card>
+  <el-card :shadow="hover">
+    <div style="text-align:center;">
+      <el-avatar :size="small" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+    </div>
     <h1 class="me-author-name">{{userInfo.userName}}</h1>
     <div class="follow" style="text-align:center;" @click="followUser" v-if="followstate==0" >
       <el-button type="primary" plain size="medium" style="font-size:18px;">Follow</el-button>

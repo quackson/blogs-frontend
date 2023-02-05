@@ -1,6 +1,7 @@
 <template>
-  
-    <el-container>
+    
+
+    <el-container >
 
       <el-main class="me-articles">
 
@@ -10,10 +11,10 @@
 
       <el-aside>
 
-        <card-me :userInfo="userInfo" :userMe="userMe" class="me-area" style="position:fixed; width:18%;"></card-me>
-        <card-tag :tags="hotTags" class="me-tags" style="margin-top:15%;position:fixed; width:18%;"></card-tag>
+        <card-me :userInfo="userInfo" :userMe="userMe" class="me-area" style="position:absolute; width:18%;"></card-me>
+        <card-tag :tags="hotTags" class="me-tags" style="margin-top:21%;position:absolute; width:18%;"></card-tag>
 
-        <el-card class="search" style="margin-top:25%;position:fixed; width:18%;">
+        <el-card class="search" style="margin-top:30%;position:absolute; width:18%;">
           <h1 style="font-size:30px;">MultiSearch
             <span style="margin-left:30%;" text-color="#696969"><i class="el-icon-search" @click="search"></i></span>
           </h1>
@@ -71,6 +72,7 @@
     },
     data() {
       return {
+        backgroundImgUrl: require('../../src/assets/img/bg.jpg'),
         hotTags: [],
         hotArticles: [],
         newArticles: [],
@@ -301,4 +303,10 @@
     margin-left: 10px;
     vertical-align: bottom;
   }
+  .background{
+    width:100%;  
+    height:100%;  
+    z-index:-1;
+    position: absolute;
+}
 </style>

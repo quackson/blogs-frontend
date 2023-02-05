@@ -1,5 +1,5 @@
 <template>
-  <div id="register" v-title data-title="注册 - For Fun">
+  <div id="register" v-title data-title="注册">
     <!--<video preload="auto" class="me-video-player" autoplay="autoplay" loop="loop">
           <source src="../../static/vedio/sea.mp4" type="video/mp4">
       </video>-->
@@ -24,14 +24,6 @@
           <el-button type="primary" @click.native.prevent="register('userForm')">注册</el-button>
         </el-form-item>
       </el-form>
-
-      <div class="me-login-design">
-        <p>Designed by
-          <strong>
-            <router-link to="/" class="me-login-design-color">ForFun</router-link>
-          </strong>
-        </p>
-      </div>
 
     </div>
   </div>
@@ -145,6 +137,7 @@
 
   .me-login-button {
     text-align: center;
+    margin-top:10%;
   }
 
   .me-login-button button {

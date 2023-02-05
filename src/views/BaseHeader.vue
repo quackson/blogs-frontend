@@ -5,7 +5,7 @@
 
       <el-col :span="2" class="me-header-left">
         <router-link to="/" class="home">
-          <i  class="el-icon-news" style="color:#000000;"/>
+          <i  class="el-icon-news" style="color:#ffffff;"/>
         </router-link>
       </el-col>
 
@@ -13,9 +13,9 @@
         <el-menu :router=true menu-trigger="click" 
                 :default-active="activeIndex"
                 mode="horizontal" 
-                background-color="#D3D3D3" 
+                background-color="#DEB887" 
                 text-color="#696969"
-                active-text-color="#000000">
+                active-text-color="#ffffff">
           <el-menu-item index="/" style = "font-size:20px;">推荐</el-menu-item>
           <el-menu-item index="/alltags" style = "font-size:20px;">全部标签</el-menu-item>
         </el-menu>
@@ -40,8 +40,8 @@
         <el-menu :router=true 
           menu-trigger="click" 
           mode="horizontal" 
-          active-text-color="#000000" 
-          background-color="#D3D3D3" 
+          active-text-color="#DEB887" 
+          background-color="#DEB887" 
           text-color="#696969">
 
           <template v-if="!user.login">
@@ -116,11 +116,11 @@
     z-index: 1024;
     min-width: 100%;
     height:5%;
-    background-color: #D3D3D3;
+    background-color:#DEB887;
   }
 
   .background {
-    background-color: #D3D3D3;
+    background-color:#DEB887;
   }
 
   .home {

@@ -1,6 +1,6 @@
 <template>
-  <el-card :body-style="{ padding: '8px 18px' }">
-    <div slot="header" class="me-tag-header" style="font-size:35px;">
+  <el-card :body-style="{ padding: '8px 18px'}" :shadow="hover" class="card-me-color">
+    <div slot="header" class="me-tag-header" style="font-size:35px;" >
       <span>HOT</span>
     </div>
 
@@ -33,6 +33,9 @@
 </script>
 
 <style scoped>
+  .card-me-color {
+    background-colod:#F5DEB3;
+  }
   .me-tag-header {
     font-weight: 600;
   }
