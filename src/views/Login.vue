@@ -48,7 +48,7 @@
     methods: {
       login(formName) {
         let that = this
-
+        /*
         this.$refs[formName].validate((valid) => {
           if (valid) {
 
@@ -63,6 +63,10 @@
             return false;
           }
         });
+        */
+        that.$store.dispatch('login', that.userForm).then(() => {
+              that.$router.go(-1)
+        })
       }
     }
   }
