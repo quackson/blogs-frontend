@@ -12,7 +12,7 @@
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload"
             style="margin-top:20%;margin-left:30%;">
-            <img v-if="userForm.avatarUrl" :src="userForm.avatarUrl" class="avatar">
+            <img v-if="BlogInfo.blogger.avatarUrl" :src="BlogInfo.blogger.avatarUrl" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-row>
@@ -29,18 +29,18 @@
       <el-row>
         <div style="text-align:center;margin-top:5%;">
         </div>
-          <el-form ref="form" :model="userForm" label-width="50%" size="medium" style="font-size:20px;margin-top:10%;">
+          <el-form ref="form" :model="BlogInfo.blogger" label-width="50%" size="medium" style="font-size:20px;margin-top:10%;">
             <el-form-item label="用户名称" style="width:100%;height:20%;font-size:20px;margin-top:10%;">
-              <el-input v-model="userForm.name"></el-input>
+              <el-input v-model="BlogInfo.blogger.name"></el-input>
             </el-form-item>
             <el-form-item label="用户邮箱" style="width:100%;height:20%;margin-top:5%;">
-              <el-input v-model="userForm.email"></el-input>
+              <el-input v-model="BlogInfo.blogger.email"></el-input>
             </el-form-item>
             <el-form-item label="用户毕业院校" style="width:100%;height:20%;margin-top:5%;">
-              <el-input v-model="userForm.graduate"></el-input>
+              <el-input v-model="BlogInfo.blogger.graduate"></el-input>
             </el-form-item>
             <el-form-item label="用户联系方式" style="width:100%;height:20%;margin-top:5%;">
-              <el-input v-model="userForm.contact"></el-input>
+              <el-input v-model="BlogInfo.blogger.contact"></el-input>
             </el-form-item>
           </el-form>
       </el-row>
@@ -95,13 +95,20 @@
     },
     data() {
       return {
-         userForm: {
-          id:-1,
-          avatarUrl:'https://img0.baidu.com/it/u=1250551608,2180019998&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500',
-          name: 'testuser',
-          email: '17000xx',
-          contact:'asdasdasd',
-          graduate:'peking'
+        BlogInfo : {
+            blogger: {
+                  id:-1,
+                  avatarUrl:'https://img0.baidu.com/it/u=1250551608,2180019998&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500',
+                  name: 'testuser',
+                  email: '17000xx',
+                  contact:'asdasdasd',
+                  graduate:'peking'
+                },
+            visitCount: 0,
+            likeCount:  0,
+            fans:  0,
+            blogCount:  0,
+            blogsUrl:   0
         },
         articles:[
             {
@@ -172,9 +179,9 @@
         console.log(`当前页: ${val}`);
       },
       handleAvatarSuccess(res, file) {
-        let user = userForm
-        user.imageUrl = URL.createObjectURL(file.raw);
-        this.userForm = user
+        let user = this.BlogInfo
+        user.blogger.imageUrl = URL.createObjectURL(file.raw);
+        this.BlogInfo = user
       },
       beforeAvatarUpload(file) {
         const isJPG = file.type === 'image/jpeg';
