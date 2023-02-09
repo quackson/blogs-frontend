@@ -9,15 +9,13 @@
         </router-link>
       </el-col>
 
-      <el-col v-if="!simple" :span="8">
+      <el-col v-if="!simple" :span="6">
         <el-menu :router=true menu-trigger="click" 
                 :default-active="activeIndex"
                 mode="horizontal" 
                 background-color="#DEB887" 
                 text-color="#696969"
                 active-text-color="#ffffff">
-          <el-menu-item index="/" style = "font-size:20px;">推荐</el-menu-item>
-          <el-menu-item index="/alltags" style = "font-size:20px;">全部标签</el-menu-item>
         </el-menu>
       </el-col>
 
@@ -25,7 +23,7 @@
         <slot></slot>
       </template>
 
-      <el-col :span="12">
+      <el-col :span="13">
           <el-input
             placeholder="请输入查询内容"
             v-model="input"
@@ -35,7 +33,7 @@
           </el-input>    
       </el-col>
 
-      <el-col :span="2">
+      <el-col :span="3">
         <div class = "me-header-right">
         <el-menu :router=true 
           menu-trigger="click" 
@@ -54,12 +52,12 @@
           </template>
 
           <template v-else>
-            <el-submenu index>
-              <template slot="title">
-                <img class="me-header-picture" :src="user.avatar"/>
-              </template>
-              <el-menu-item index @click="logout"><i class="el-icon-back"></i>退出</el-menu-item>
-            </el-submenu>
+              <el-menu-item>
+                <el-button @click="touser" type="text" style = "font-size:20px;">个人中心</el-button>
+              </el-menu-item>
+              <el-menu-item>
+                <el-button @click="logout" type="text" style = "font-size:20px;">退出</el-button>
+              </el-menu-item>
           </template>
         </el-menu>
         </div>
@@ -87,10 +85,10 @@
     },
     computed: {
       user() {
-        let login = this.$store.state.account.length != 0
-        let avatar = this.$store.state.avatar
+        let login = this.$store.state.name.length != 0
+        let avatarUrl = this.$store.state.avatarUrl
         return {
-          login, avatar
+          login, avatarUrl
         }
       }
     },
@@ -102,6 +100,20 @@
         }).catch((error) => {
           if (error !== 'error') {
             that.$message({message: error, type: 'error', showClose: true});
+          }
+        })
+      },
+      touser() {
+        this.$router.push({
+          'name':'user',
+          'params':{
+            userInfo:{
+                'userName':this.$store.state.name,
+                'email':this.$store.state.email,
+                'contactInfo':this.$store.state.contact,
+                'userId':this.$store.state.id,
+                'graduate':this.$store.state.graduate
+            }
           }
         })
       }
