@@ -2,11 +2,8 @@ import request from '@/request'
 
 export function getPersonalInfo(id) {
   return request({
-    url: '/getPersonalInfo',
-    method: 'get',
-    params: {
-      userId: id
-    }
+    url: '/getPersonalInfo/id',
+    method: 'get'
   })
 }
 
@@ -28,5 +25,35 @@ export function checkSate(uid) {
   return request({
     url: '/blogger/${uid}/subsribed',
     method: 'post'
+  })
+}
+
+export function getBlogInfo(uid) {
+  return request({
+    url: '/blog/${uid}',
+    method: 'get'
+  })
+}
+
+export function getUserBlog(uid, pageint, perpage) {
+  return request({
+    url: '/blog/{uid}/post',
+    method: 'get',
+    params: {
+      page: pageint, 
+      perpage: perpage
+    }
+  })
+}
+
+export function getUserTags(uid) {
+
+  return request({
+    url: '/blogger/{uid}/tag',
+    method: 'get',
+    params: {
+      page: 1, 
+      perpage: 10
+    }
   })
 }

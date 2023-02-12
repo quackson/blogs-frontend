@@ -27,7 +27,7 @@
 
       <el-aside>
 
-        <card-me :userInfo="userInfo" :userMe="userMe" class="me-area" style="position:absolute; width:18%;"></card-me>
+        <card-me :userInfo="userInfo" class="me-area" style="position:absolute; width:18%;"></card-me>
         <card-tag :tags="hotTags" :title="tagtitle" class="me-tags" style="margin-top:21%;position:absolute; width:18%;"></card-tag>
 
       </el-aside>
@@ -44,7 +44,7 @@
   import ArticleScrollPage from '@/views/common/ArticleScrollPage'
   import ArticleItem from '@/components/article/ArticleItem'
 
-  import {getArticles, getHotArtices, getNewArtices} from '@/api/article'
+  import {getBlogInfo, getUserBlog, getUserTags} from '@/api/user'
   import {getPersonalInfo} from '@/api/user'
   import {getHotTags} from '@/api/tag'
   import {listArchives} from '@/api/article'
@@ -53,8 +53,9 @@
     name: 'user',
     created() {      
       this.userInfo =  this.$route.params.userInfo;
-      this.getHotArtices()
-      this.getHotTags()
+      this.getBlogInfo()
+      this.getUserBlog()
+      this.getUserTags()
     },
     data() {
       return {
@@ -64,6 +65,7 @@
         pageint:1,
         perpage:5,
         userInfo:{},
+        BlogInfo:[]
       }
     },
     methods: {
@@ -73,37 +75,32 @@
       handleCurrentChange(val) {        
         this.pageint = val;
         let that = this
-        var newa=[];
-        
-        that.articleshow = newa;
+        this.getHotArtices()
         console.log(`当前页: ${val}`);
       },
-      getPersonalInfo() {
+      getBlogInfo() {
         let that = this
         /*
-        getPersonalInfo().then(data => {
-          that.userInfo = data.data
+        getBlogInfo(that.userInfo.id).then(data => {
+          if (data.code == 0) {
+            that.BlogInfo = data.data.content;
+          }else{
+            that.$message({type: 'error', message: data.reason, showClose: true})
+          }
         }).catch(error => {
           if (error !== 'error') {
-            that.$message({type: 'error', message: '用户信息加载失败!', showClose: true})
+            that.$message({type: 'error', message: '加载用户信息!', showClose: true})
           }
-        */
-        that.userInfo = {
-          'userName':'testuser',
-          'email':'17xxx@pku.edu.cn',
-          'contactInfo':123123123,
-          'userId':1,
-          'graduate':'Peking University'
-        }
 
-        console.log(this.userInfo)
+        })
+        */
       },
-      getHotArtices() {
+      getUserBlog() {
         let that = this
         /*
-        getHotArtices().then(data => {
+        getUserBlog(that.userInfo.id, that.pageint, that.perpage).then(data => {
           if (data.code == 0) {
-            that.hotArticles = data.PostInfo;
+            that.articleshow = data.data.content;
           }else{
             that.$message({type: 'error', message: data.reason, showClose: true})
           }
@@ -167,14 +164,14 @@
         that.articleshow = that.articleshow.concat(that.articleshow);
         that.pageint = 1;
       },
-      getHotTags() {
+      getUserTags() {
         
         let that = this;        
         var color= ['primary', 'success', 'warning', 'danger', 'info', 'text']
         var temp_data = [];
         /*
-        getHotTags().then(data => {
-          temp_data = data.data
+        getUserTags(that.userInfo.id).then(data => {
+          temp_data = data.data.content
         }).catch(error => {
           if (error !== 'error') {
             that.$message({type: 'error', message: '最热标签加载失败!', showClose: true})

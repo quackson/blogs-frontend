@@ -1,9 +1,9 @@
 import request from '@/request'
 
-export function login(account, password) {
+export function login(contact, password) {
   const data = {
-    account,
-    password
+    contact: contact,
+    password: password
   }
   return request({
     url: '/login',
@@ -19,22 +19,26 @@ export function logout() {
   })
 }
 
-export function getUserInfo() {
+export function getUserInfo(id) {
+  console.log('/users/'+id)
   return request({
-    url: '/users/currentUser',
+    url: '/blogger/'+id,
     method: 'get'
   })
 }
 
-export function register(account, nickname, password) {
+export function register(contact, email, name , password) {
   const data = {
-    account,
-    nickname,
-    password
+    name: name, 
+    password: password, 
+    contact: contact, 
+    email: email
   }
+  console.log(data)
+  
   return request({
     url: '/register',
     method: 'post',
-    data
+    params:data
   })
 }

@@ -1,7 +1,7 @@
 <template>
   <el-card :body-style="{ padding: '8px 18px'}" :shadow="hover" class="card-me-color">
     <div slot="header" class="me-tag-header" style="font-size:35px;" >
-      <span>HOT</span>
+      <span>{{title}}</span>
     </div>
 
     <ul class="me-tag-list">
@@ -18,7 +18,8 @@
   export default {
     name: 'CardTag',
     props: {
-      tags: Array
+      tags: Array,
+      title: String
     },
     data() {
       return {

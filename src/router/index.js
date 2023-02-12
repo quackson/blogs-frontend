@@ -65,10 +65,10 @@ const router = new Router({
         {
           path: '/userinfos',
           component: r => require.ensure([], () => r(require('@/views/UserInfos')), 'userinfos')
-        },
-        {
-          path: '/userboard',
-          component: r => require.ensure([], () => r(require('@/views/UserBoard')), 'userboard')
+        },{
+          path: '/user',
+          name: 'user',
+          component: r => require.ensure([], () => r(require('@/views/user')), 'user')
         },
         {
           path: '/view/:id',

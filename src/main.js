@@ -13,6 +13,7 @@ import '@/assets/theme/index.css'
 import '@/assets/icon/iconfont.css'
 
 import {formatTime} from "./utils/time";
+import Axios from 'axios'
 
 
 Vue.config.productionTip = false
@@ -20,6 +21,7 @@ Vue.config.productionTip = false
 Vue.use(ElementUI)
 
 Object.defineProperty(Vue.prototype, '$_', { value: lodash })
+
 
 
 Vue.directive('title',  function (el, binding) {

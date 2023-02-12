@@ -5,15 +5,19 @@
       </video>-->
 
     <div class="me-login-box me-login-box-radius">
-      <h1>ForFun 注册</h1>
+      <h1>注册</h1>
 
       <el-form ref="userForm" :model="userForm" :rules="rules">
-        <el-form-item prop="account">
-          <el-input placeholder="用户名" v-model="userForm.account"></el-input>
+        <el-form-item prop="contact">
+          <el-input placeholder="手机号" v-model="userForm.contact"></el-input>
         </el-form-item>
 
-        <el-form-item prop="nickname">
-          <el-input placeholder="昵称" v-model="userForm.nickname"></el-input>
+        <el-form-item prop="name">
+          <el-input placeholder="昵称" v-model="userForm.name"></el-input>
+        </el-form-item>
+
+        <el-form-item prop="email">
+          <el-input placeholder="邮箱" v-model="userForm.email"></el-input>
         </el-form-item>
 
         <el-form-item prop="password">
@@ -37,22 +41,27 @@
     data() {
       return {
         userForm: {
-          account: '',
-          nickname: '',
-          password: ''
+          name: '',
+          password: '',
+          contact: '',
+          email: ''
         },
         rules: {
-          account: [
-            {required: true, message: '请输入用户名', trigger: 'blur'},
-            {max: 10, message: '不能大于10个字符', trigger: 'blur'}
+          contact: [
+            {required: true, message: '请输入手机号', trigger: 'blur'},
+            {max: 12, message: '不能大于12个字符', trigger: 'blur'}
           ],
-          nickname: [
+          name: [
             {required: true, message: '请输入昵称', trigger: 'blur'},
             {max: 10, message: '不能大于10个字符', trigger: 'blur'}
           ],
           password: [
             {required: true, message: '请输入密码', trigger: 'blur'},
-            {max: 10, message: '不能大于10个字符', trigger: 'blur'}
+            {max: 20, message: '不能大于20个字符', trigger: 'blur'}
+          ],
+          email: [
+            {required: true, message: '请输入邮箱', trigger: 'blur'},
+            {max: 50, message: '不能大于50个字符', trigger: 'blur'}
           ]
         }
 
@@ -63,9 +72,10 @@
         let that = this
         this.$refs[formName].validate((valid) => {
           if (valid) {
-
             that.$store.dispatch('register', that.userForm).then(() => {
-              that.$message({message: '注册成功 快写文章吧', type: 'success', showClose: true});
+              console.log("registed")
+              console.log(that.userForm)
+              that.$message({message: '注册成功', type: 'success', showClose: true});
               that.$router.push({path: '/'})
             }).catch((error) => {
               if (error !== 'error') {

@@ -74,12 +74,15 @@
 
   import {getArticles, getHotArtices, getNewArtices} from '@/api/article'
   import {getPersonalInfo} from '@/api/user'
+  import {getUserInfo} from '@/api/login'
   import {getHotTags} from '@/api/tag'
   import {listArchives} from '@/api/article'
 
   export default {
     name: 'Index',
     created() {
+      this.userid = this.$store.state.id;  
+      console.log(this.userid)
       this.getHotArtices()
       this.getHotTags()
       this.getPersonalInfo()
@@ -89,8 +92,8 @@
         backgroundImgUrl: require('../../src/assets/img/bg.jpg'),
         hotTags: [],
         articleshow: [],
-        userInfo:{},
-        userMe:{},        
+        userInfo:{}, 
+        userid:0,   
         pageint:1,
         perpage:5,
         inputC:"",
@@ -137,23 +140,13 @@
       },
       getPersonalInfo() {
         let that = this
-        /*
-        getPersonalInfo().then(data => {
-          that.userInfo = data.data
+        getUserInfo(that.userid).then(data => {
+          that.userInfo = data.content
         }).catch(error => {
           if (error !== 'error') {
             that.$message({type: 'error', message: '用户信息加载失败!', showClose: true})
           }
-        */
-        that.userInfo = {
-          'userName':'testuser',
-          'email':'17xxx@pku.edu.cn',
-          'contactInfo':123123123,
-          'userId':1,
-          'graduate':'Peking University'
-        }
-
-        console.log(this.userInfo)
+        })
       },
       getHotArtices() {
         let that = this

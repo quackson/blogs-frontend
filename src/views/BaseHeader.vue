@@ -68,7 +68,11 @@
   </el-header>
 </template>
 
+
+
 <script>
+import {getUserInfo} from '@/api/login'
+
   export default {
     name: 'BaseHeader',
     props: {
@@ -92,6 +96,9 @@
         }
       }
     },
+    created() {
+      
+    },
     methods: {
       logout() {
         let that = this
@@ -108,11 +115,12 @@
           'name':'user',
           'params':{
             userInfo:{
-                'userName':this.$store.state.name,
+                'name':this.$store.state.name,
                 'email':this.$store.state.email,
-                'contactInfo':this.$store.state.contact,
-                'userId':this.$store.state.id,
-                'graduate':this.$store.state.graduate
+                'contact':this.$store.state.contact,
+                'id':this.$store.state.id,
+                'graduate':this.$store.state.graduate,
+                'avatarUrl:':this.$store.state.avatarUrl,
             }
           }
         })

@@ -30,6 +30,7 @@ service.interceptors.response.use(
     }
 
     const res = response.data;
+    console.log(res)
 
     //0 为成功状态
     if (res.code !== 0) {

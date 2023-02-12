@@ -12,19 +12,20 @@ module.exports = {
     assetsPublicPath: '/',
     // 代理配置表，在这里可以配置特定的请求代理到对应的API接口
     // 例如将'localhost:8080/'代理到 http://localhost:8888
+    
     proxyTable: {
     	'/': {
-        target: 'http://localhost:8888',
-        changeOrigin: true,
+        target: 'http://10.129.167.54:8080',
+        changeOrigin: true,        
         pathRewrite: {
           '^/': ''
         }
+        
       }
     },
-
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
-    port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+    port: 8081, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,
     notifyOnErrors: true,
