@@ -26,6 +26,7 @@
 
 <script>
 
+import Cookies from 'js-cookie'
 
   export default {
     name: 'Login',
@@ -62,8 +63,10 @@
                     that.$message({message: error, type: 'error', showClose: true});
                   }
                 })
-              this.$cookieStore.setCookie('JESSIONID', that.$store.state.id, 30);
-              this.$cookieStore.setCookie('id', that.$store.state.id, 30);
+              Cookies.set('JESSIONID', that.$store.state.id)
+              Cookies.set('id', that.$store.state.id)
+              //this.$cookieStore.setCookie('JESSIONID', that.$store.state.id, 30);
+              //this.$cookieStore.setCookie('id', that.$store.state.id, 30);
               that.$router.go(-1)
             }).catch((error) => {
               if (error !== 'error') {

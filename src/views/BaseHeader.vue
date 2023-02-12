@@ -72,6 +72,7 @@
 
 <script>
 import {getUserInfo} from '@/api/login'
+import Cookies from 'js-cookie'
 
   export default {
     name: 'BaseHeader',
@@ -109,8 +110,10 @@ import {getUserInfo} from '@/api/login'
     methods: {
       logout() {
         let that = this
-        that.$cookieStore.delCookie('id');
-        that.$cookieStore.delCookie('JESSIONID');
+        //that.$cookieStore.delCookie('id');
+        //that.$cookieStore.delCookie('JESSIONID');
+        Cookies.remove('id')
+        Cookies.remove('JESSIONID');
         this.$store.dispatch('logout').then(() => {
           that.$cookieStore.delCookie('JESSIONID');
         }).catch((error) => {
