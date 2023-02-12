@@ -39,17 +39,17 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    login({commit}, user, state) {
+    login({commit, state}, user) {
 
-      console.log('login')
-      console.log(user)
+      //console.log('login')
+      //console.log(user)
       //modify      
-      commit('SET_ID', 1);
+      //commit('SET_id', 1);
       return new Promise((resolve, reject) => {
         login(user.contact, user.password).then(data => {
-            commit('SET_id', data.content.id)
-            commit('SET_contact', user.contact)          
             
+            commit('SET_id', data.content)
+            commit('SET_contact', user.contact)                    
             resolve()
         }).catch(error => {
           reject(error)
@@ -62,19 +62,12 @@ export default new Vuex.Store({
     // 获取用户信息
     getUserInfo({commit, state}) {
       let that = this
-      console.log("store getUserInfo")
-      console.log(state.id)
+      //console.log("store getUserInfo")
 
-      //modify
-      commit('SET_id', 1)
-            commit('SET_name', 'testuser')
-            commit('SET_avatarUrl', 'https://img0.baidu.com/it/u=1250551608,2180019998&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500')
-            commit('SET_email', 'xxxxxxxxxx')
-            commit('SET_graduate', 'xxxxxxxxxx')
-            commit('SET_contact', 'xxxxxxxxxx')
       getUserInfo(state.id).then(data => {
+          //console.log(data)
           if (data.content) {
-            console.log('SET_name')
+            //console.log('SET_name')
             commit('SET_id', data.content.id)
             commit('SET_name', data.content.name)
             commit('SET_avatarUrl', data.content.avatarUrl)
@@ -88,6 +81,16 @@ export default new Vuex.Store({
         })
       
     },
+    //修改
+    updateUserInfo({commit, state}, userInfo) {
+      let that = this
+            commit('SET_name', userInfo.name)
+            commit('SET_avatarUrl', userInfo.avatarUrl)
+            commit('SET_email', userInfo.email)
+            commit('SET_graduate', userInfo.graduate)
+            commit('SET_contact', userInfo.contact)
+      
+    },
     // 退出
     logout({commit, state}) {
       
@@ -97,7 +100,6 @@ export default new Vuex.Store({
           commit('SET_email', "")
           commit('SET_graduate', "")
           commit('SET_contact', "")
-          resolve()
     },
     // 前端 登出
     fedLogOut({commit}) {
@@ -114,13 +116,6 @@ export default new Vuex.Store({
     register({commit, state}, user) {
       return new Promise((resolve, reject) => {
         register(user.contact, user.email, user.name, user.password).then((data) => {
-            commit('SET_id', data.content)
-            commit('SET_name', user.name)
-            commit('SET_avatarUrl', 'https://img0.baidu.com/it/u=1250551608,2180019998&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500')
-            commit('SET_email', user.email)
-            commit('SET_graduate', 'non')
-            commit('SET_contact', user.contact)
-            console.log(state.id)
             resolve()
           //console.log(data)
         }).catch((error) => {

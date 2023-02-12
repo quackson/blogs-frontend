@@ -12,7 +12,7 @@
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload"
             style="margin-top:20%;margin-left:30%;">
-            <img v-if="BlogInfo.blogger.avatarUrl" :src="BlogInfo.blogger.avatarUrl" class="avatar">
+            <img v-if="avatarUrl" :src="avatarUrl" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-row>
@@ -29,24 +29,24 @@
       <el-row>
         <div style="text-align:center;margin-top:5%;">
         </div>
-          <el-form ref="form" :model="BlogInfo.blogger" label-width="50%" size="medium" style="font-size:20px;margin-top:10%;">
+          <el-form ref="form" label-width="50%" size="medium" style="font-size:20px;margin-top:10%;">
             <el-form-item label="用户名称" style="width:100%;height:20%;font-size:20px;margin-top:10%;">
-              <el-input v-model="BlogInfo.blogger.name"></el-input>
+              <el-input v-model="name" place></el-input>
             </el-form-item>
             <el-form-item label="用户邮箱" style="width:100%;height:20%;margin-top:5%;">
-              <el-input v-model="BlogInfo.blogger.email"></el-input>
+              <el-input v-model="email"></el-input>
             </el-form-item>
             <el-form-item label="用户毕业院校" style="width:100%;height:20%;margin-top:5%;">
-              <el-input v-model="BlogInfo.blogger.graduate"></el-input>
+              <el-input v-model="graduate"></el-input>
             </el-form-item>
             <el-form-item label="用户联系方式" style="width:100%;height:20%;margin-top:5%;">
-              <el-input v-model="BlogInfo.blogger.contact"></el-input>
+              <el-input v-model="contact"></el-input>
             </el-form-item>
           </el-form>
       </el-row>
       <el-row>
         <div style="margin-top:5%;">
-          <el-button type="success" plain style="font-size:100%;margin-left:38%;">提交修改</el-button>
+          <el-button type="success" plain @click="updateUserInfo()" style="font-size:100%;margin-left:38%;">提交修改</el-button>
         </div>
       </el-row>
       </el-col>
@@ -85,92 +85,54 @@
   import ArticleScrollPage from '@/views/common/ArticleScrollPage'
   import ArticleItem from '@/components/article/ArticleItem'
 
-  import {getPersonalInfo} from '@/api/user'
+  import {getPersonalInfo, updateUserInfo} from '@/api/user'
   import {getHotTags} from '@/api/tag'
   import {listArchives} from '@/api/article'
 
   export default {
     name: 'userboard',
-    created() {
-    },
+    
     data() {
       return {
-        BlogInfo : {
-            blogger: {
-                  id:-1,
-                  avatarUrl:'https://img0.baidu.com/it/u=1250551608,2180019998&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500',
-                  name: 'testuser',
-                  email: '17000xx',
-                  contact:'asdasdasd',
-                  graduate:'peking'
-                },
-            visitCount: 0,
-            likeCount:  0,
-            fans:  0,
-            blogCount:  0,
-            blogsUrl:   0
-        },
-        articles:[
-            {
-              id:0,
-              title: "article1",
-              content: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-              author: {
-                  id: 0,
-                  name: "testuser1",
-                  avatarUrl: "xxxx",
-                  contact: 'xxxxxxx',
-                  email: "xxxxxxxxxx",
-                  graduate: "xxxxxxxxxx"
-              },
-              tags: [
-                {
-                  id: 0,
-                  name:"test1",
-                  owner:{
-                            id: 0,
-                            name:  "test",
-                            avatarUrl:  "url",
-                            contact: "123123123",
-                            email: "123@pku.edu.cn",
-                            graduate: "peking University"
-                        },
-                  description:"xxxxxxxxxxxxxx"
-                },{
-                  id: 1,
-                  name:"t",
-                  owner:{
-                            id: 0,
-                            name:  "test",
-                            avatarUrl:  "url",
-                            contact: "123123123",
-                            email: "123@pku.edu.cn",
-                            graduate: "peking University"
-                        },
-                  description:"xxxxxxxxxxxxxx"
-              }],
-              avatar: "xxxxxxxxxxx",
-              comments: "xxxxxxxxxxxxxxx",
-              permission: {
-                  isPublic: true ,
-                  needReviewComment:  true
-              },
-              visits: 123,
-              likes: 11,
-              unreviewedCount: 12
-          }
-        ],
+        userInfo : {},
+        name: '',
+        contact: '',
+        graduate: '',
+        email: '',
+        avatarUrl:'',
+        BlogInfo : {},
+        articles:[],
         perpage:5,
         pageint:1,
         userID:-1
       }
     },
-    created(){
-      for(var i=0; i < 2;++i){
-        this.articles = this.articles.concat(this.articles)
-      }
+    created() { 
+      //console.log('cookie')    
+      //console.log(this.$cookieStore.getCookie('id'))
+      this.userInfo = this.$route.params.userInfo;
+      console.log("get userinfo")
+      console.log(this.userInfo)
+      this.name = this.$route.params.userInfo.name;
+      this.contact = this.$route.params.userInfo.contact;
+      this.graduate = this.$route.params.userInfo.graduate;
+      this.email = this.$route.params.userInfo.email;
+      this.avatarUrl = this.$route.params.userInfo.avatarUrl;
+      this.userID = this.$store.state.id;
+      this.getBloggerInfo()
     },
     methods: {
+      getBloggerInfo() {
+        let that  = this;
+        getPersonalInfo(that.userID).then(data => {
+          that.BlogInfo = data.content
+        }).catch(error => {
+          if (error !== 'error') {
+            that.$message({type: 'error', message: '用户信息加载失败!', showClose: true})
+          }
+        })
+
+      },
       handleSizeChange(val) {
         this.pageint = val;
         console.log(`每页 ${val} 条`);
@@ -179,9 +141,8 @@
         console.log(`当前页: ${val}`);
       },
       handleAvatarSuccess(res, file) {
-        let user = this.BlogInfo
-        user.blogger.imageUrl = URL.createObjectURL(file.raw);
-        this.BlogInfo = user
+        var avatarUrlNew = URL.createObjectURL(file.raw);
+        this.avatarUrl = avatarUrlNew
       },
       beforeAvatarUpload(file) {
         const isJPG = file.type === 'image/jpeg';
@@ -194,14 +155,35 @@
           this.$message.error('上传头像图片大小不能超过 2MB!');
         }
         return isJPG && isLt2M;
+      },
+      updateUserInfo(){
+        let that  = this;
+        var blogger = {
+          id: that.userID,
+          name:  that.name,
+          avatarUrl:that.avatarUrl,
+          contact: that.contact,
+          email:  that.email, 
+          graduate: that.graduate,
+        }
+        updateUserInfo(that.userID, blogger).then(data => {
+          console.log("modify success")
+          that.$store.dispatch('updateUserInfo', blogger).then(() => {              
+                }).catch((error) => {
+                  if (error !== 'error') {
+                    that.$message({message: error, type: 'error', showClose: true});
+                  }
+                })
+        }).catch(error => {
+          //console.log(error)
+          if (error !== 'error') {
+            that.$message({type: 'error', message: '用户信息修改失败!', showClose: true})
+          }
+        })
+        
       }
     },
     components: {
-      'card-me': CardMe,
-      'card-article': CardArticle,
-      'card-tag': CardTag,
-      ArticleScrollPage,
-      CardArchive,
       'article-item':ArticleItem,
       'sidebar':SideBar
     }

@@ -75,6 +75,13 @@ import {getUserInfo} from '@/api/login'
 
   export default {
     name: 'BaseHeader',
+    beforeMount () {
+      Vue.prototype.$cookieStore = {
+        setCookie,
+        getCookie,
+        delCookie
+      }
+    },
     props: {
       activeIndex: String,
       simple: {
@@ -89,7 +96,7 @@ import {getUserInfo} from '@/api/login'
     },
     computed: {
       user() {
-        let login = this.$store.state.name.length != 0
+        let login = this.$store.state.id >= 0
         let avatarUrl = this.$store.state.avatarUrl
         return {
           login, avatarUrl
@@ -102,8 +109,10 @@ import {getUserInfo} from '@/api/login'
     methods: {
       logout() {
         let that = this
+        that.$cookieStore.delCookie('id');
+        that.$cookieStore.delCookie('JESSIONID');
         this.$store.dispatch('logout').then(() => {
-          this.$router.push({path: '/'})
+          that.$cookieStore.delCookie('JESSIONID');
         }).catch((error) => {
           if (error !== 'error') {
             that.$message({message: error, type: 'error', showClose: true});
@@ -111,10 +120,7 @@ import {getUserInfo} from '@/api/login'
         })
       },
       touser() {
-        this.$router.push({
-          'name':'user',
-          'params':{
-            userInfo:{
+        var userInfo_ = {
                 'name':this.$store.state.name,
                 'email':this.$store.state.email,
                 'contact':this.$store.state.contact,
@@ -122,6 +128,11 @@ import {getUserInfo} from '@/api/login'
                 'graduate':this.$store.state.graduate,
                 'avatarUrl:':this.$store.state.avatarUrl,
             }
+        //console.log(userInfo_)
+        this.$router.push({
+          'name':'userboard',
+          'params':{
+            userInfo: userInfo_
           }
         })
       }

@@ -25,6 +25,8 @@
 </template>
 
 <script>
+
+
   export default {
     name: 'Login',
     data() {
@@ -53,12 +55,23 @@
           if (valid) {
             //console.log(that.userForm)
             that.$store.dispatch('login', that.userForm).then(() => {
+
+              that.$store.dispatch('getUserInfo').then(() => {              
+                }).catch((error) => {
+                  if (error !== 'error') {
+                    that.$message({message: error, type: 'error', showClose: true});
+                  }
+                })
+              this.$cookieStore.setCookie('JESSIONID', that.$store.state.id, 30);
+              this.$cookieStore.setCookie('id', that.$store.state.id, 30);
               that.$router.go(-1)
             }).catch((error) => {
               if (error !== 'error') {
                 that.$message({message: error, type: 'error', showClose: true});
               }
             })
+
+            
           } else {
             return false;
           }

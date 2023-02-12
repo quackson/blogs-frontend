@@ -14,7 +14,13 @@ import '@/assets/icon/iconfont.css'
 
 import {formatTime} from "./utils/time";
 import Axios from 'axios'
-
+import {setCookie, getCookie, delCookie} from './utils/cokkie.js';
+ 
+Vue.prototype.$cookieStore = {
+  setCookie,
+  getCookie,
+  delCookie
+}
 
 Vue.config.productionTip = false
 

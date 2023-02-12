@@ -40,7 +40,7 @@
           'name':String,
           'email':String,
           'contact':String,
-          'userId':Number,
+          'id':Number,
           'graduate':String,
           'avatarUrl':String
         }

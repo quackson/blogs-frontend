@@ -8,7 +8,7 @@ export function login(contact, password) {
   return request({
     url: '/login',
     method: 'post',
-    data
+    params:data
   })
 }
 
@@ -20,7 +20,8 @@ export function logout() {
 }
 
 export function getUserInfo(id) {
-  console.log('/users/'+id)
+  //console.log('getUserInfo')
+  //console.log(id)
   return request({
     url: '/blogger/'+id,
     method: 'get'

@@ -3,9 +3,10 @@ import {Message} from 'element-ui'
 import store from '@/store'
 import {getToken} from '@/request/token'
 
-const service = axios.create({
+const service = axios.create({  
+  withCredentials: true,
   baseURL: process.env.BASE_API,
-  timeout: 10000
+  timeout: 10000,
 })
 
 //request拦截器
