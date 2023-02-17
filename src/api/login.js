@@ -43,3 +43,22 @@ export function register(contact, email, name , password) {
     params:data
   })
 }
+
+export function updateUserInfo(uid, userInfo) {
+  //console.log(uid)
+  console.log(userInfo)
+  //console.log(request)
+  return request({
+    url: '/blogger/'+ uid,
+    method: 'patch',
+    data: userInfo
+  })
+}
+
+export function getPersonalInfo(id) {
+  console.log(id)
+  return request({
+    url: '/blogger/'+id,
+    method: 'get'
+  })
+}

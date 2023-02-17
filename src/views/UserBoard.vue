@@ -85,7 +85,7 @@
   import ArticleScrollPage from '@/views/common/ArticleScrollPage'
   import ArticleItem from '@/components/article/ArticleItem'
 
-  import {getPersonalInfo, updateUserInfo} from '@/api/user'
+  import {getPersonalInfo, updateUserInfo} from '@/api/login'
   import {getHotTags} from '@/api/tag'
   import {listArchives} from '@/api/article'
 
@@ -119,7 +119,7 @@
       this.email = this.$route.params.userInfo.email;
       this.avatarUrl = this.$route.params.userInfo.avatarUrl;
       this.userID = this.$store.state.id;
-      this.getBloggerInfo()
+      //this.getBloggerInfo()
     },
     methods: {
       getBloggerInfo() {

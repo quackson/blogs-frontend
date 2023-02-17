@@ -65,7 +65,7 @@ export function updateUserInfo(uid, userInfo) {
 	console.log(userInfo)
   return request({
     url: '/blogger/'+ uid,
-    method: 'patch',
+    method: 'post',
     data: userInfo
   })
 }

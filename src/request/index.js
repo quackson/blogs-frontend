@@ -3,29 +3,36 @@ import {Message} from 'element-ui'
 import store from '@/store'
 import {getToken} from '@/request/token'
 
-const service = axios.create({  
+//axios.defaults.withCredentials = true;
+
+const service = axios.create({ 
   withCredentials: true,
-  baseURL: process.env.BASE_API,
+  baseURL: process.env.BASE_API, 
   timeout: 10000,
 })
 
+/*
 //request拦截器
 service.interceptors.request.use(config => {
-
+  //console.log(config)
+  //request.withCredentials = true;
   if (store.state.token) {
     config.headers['Oauth-Token'] = getToken()
   }
+  
   return config
 }, error => {
 
   Promise.reject(error)
 })
+*/
 
 // respone拦截器
 service.interceptors.response.use(
   response => {
-
+    
     //全局统一处理 Session超时
+    /*
     if (response.headers['session_time_out'] == 'timeout') {
       store.dispatch('fedLogOut')
     }
@@ -69,6 +76,9 @@ service.interceptors.response.use(
     } else {
       return response.data;
     }
+    */
+    return response.data
+    
   },
   error => {
     Message({

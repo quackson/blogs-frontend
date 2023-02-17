@@ -73,7 +73,6 @@
   import ArticleItem from '@/components/article/ArticleItem'
 
   import {getArticles, getHotArtices, getNewArtices} from '@/api/article'
-  import {getPersonalInfo} from '@/api/user'
   import {getUserInfo} from '@/api/login'
   import {getHotTags} from '@/api/tag'
   import {listArchives} from '@/api/article'
@@ -85,7 +84,7 @@
       console.log(this.userid)
       this.getHotArtices()
       this.getHotTags()
-      this.getPersonalInfo()
+      this.getUserInfo()
     },
     data() {
       return {
@@ -138,8 +137,10 @@
         this.inputC= "";
         this.dynamicTags=[]
       },
-      getPersonalInfo() {
+      getUserInfo() {
         let that = this
+        if (that.userid < 0)
+          return
         getUserInfo(that.userid).then(data => {
           that.userInfo = data.content
         }).catch(error => {
@@ -150,6 +151,7 @@
       },
       getHotArtices() {
         let that = this
+        /*
         getHotArtices().then(data => {
           if (data.code == 0) {
             that.hotArticles = data.PostInfo;
@@ -162,6 +164,7 @@
           }
 
         })
+        */
         that.articleshow = [
             {
               id:0,

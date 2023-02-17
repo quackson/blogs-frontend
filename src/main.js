@@ -13,9 +13,13 @@ import '@/assets/theme/index.css'
 import '@/assets/icon/iconfont.css'
 
 import {formatTime} from "./utils/time";
-import Axios from 'axios'
+import axios from 'axios'
 import {setCookie, getCookie, delCookie} from './utils/cokkie.js';
- 
+
+
+axios.defaults.withCredentials = true;
+Vue.prototype.$axios = axios;
+
 Vue.prototype.$cookieStore = {
   setCookie,
   getCookie,
@@ -23,7 +27,7 @@ Vue.prototype.$cookieStore = {
 }
 
 Vue.config.productionTip = false
-
+//Vue.http.options.xhr = { withCredentials: true } 
 Vue.use(ElementUI)
 
 Object.defineProperty(Vue.prototype, '$_', { value: lodash })

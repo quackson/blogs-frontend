@@ -112,8 +112,8 @@ import Cookies from 'js-cookie'
         let that = this
         //that.$cookieStore.delCookie('id');
         //that.$cookieStore.delCookie('JESSIONID');
-        Cookies.remove('id')
-        Cookies.remove('JESSIONID');
+        //Cookies.remove('id')
+        //Cookies.remove('JESSIONID');
         this.$store.dispatch('logout').then(() => {
           that.$cookieStore.delCookie('JESSIONID');
         }).catch((error) => {

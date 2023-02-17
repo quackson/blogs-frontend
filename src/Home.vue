@@ -13,7 +13,6 @@
 </template>
 
 <script>
-import BaseFooter from '@/components/BaseFooter'
 import BaseHeader from '@/views/BaseHeader'
 
 export default {
@@ -21,13 +20,14 @@ export default {
   data (){
   	return {
   			activeIndex: '/',
-  			footerShow:true
+  			//footerShow:true
   	}
   },
   components:{
   	'base-header':BaseHeader,
-  	'base-footer':BaseFooter
+  	//'base-footer':BaseFooter
   },
+  /*
   beforeRouteEnter (to, from, next){
   	 next(vm => {
     	vm.activeIndex = to.path
@@ -42,6 +42,7 @@ export default {
 	  this.activeIndex = to.path
 	  next()
 	}
+  */
 }
 </script>
 

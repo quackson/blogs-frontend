@@ -63,8 +63,8 @@ import Cookies from 'js-cookie'
                     that.$message({message: error, type: 'error', showClose: true});
                   }
                 })
-              Cookies.set('JESSIONID', that.$store.state.id)
-              Cookies.set('id', that.$store.state.id)
+              //Cookies.set('JESSIONID', that.$store.state.id)
+              //Cookies.set('id', that.$store.state.id)
               //this.$cookieStore.setCookie('JESSIONID', that.$store.state.id, 30);
               //this.$cookieStore.setCookie('id', that.$store.state.id, 30);
               that.$router.go(-1)
@@ -73,7 +73,6 @@ import Cookies from 'js-cookie'
                 that.$message({message: error, type: 'error', showClose: true});
               }
             })
-
             
           } else {
             return false;
