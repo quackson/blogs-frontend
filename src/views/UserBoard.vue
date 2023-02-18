@@ -53,11 +53,18 @@
       <el-col>
         <div v-for="a in articles" :key="a.id" style="width:90%;margin-left:5%;">
           <el-row>
-            <el-col :span="22">
-              <article-item v-bind="a" style="margin-top:1%;"></article-item>
-            </el-col>
-            <el-col :span="2">
-              <el-row><i class="el-icon-edit" style="text-color=#000000;font-size:30px;margin-top:20%;"></i></el-row>
+            <el-col :span="24">
+              <article-item 
+              :id= 'a.id'
+              :title='a.title'
+              :detail='a.detail'
+              :content='a.content'
+              :blogger='a.blogger'
+              :tags:='a.tags'
+              :permission='a.permission'
+              :visits='a.visits'
+              :likes='a.likes'
+              style="margin-top:1%;"></article-item>
             </el-col>
           </el-row>
         </div>
@@ -66,9 +73,9 @@
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
             :current-page.sync="currentPage3"
-            :page-size="100"
+            :page-size="perpage"
             layout="prev, pager, next, jumper"
-            :total="1000">
+            :total="BlogInfo.blogCount">
           </el-pagination>
         </div>
       </el-col>
@@ -86,6 +93,7 @@
   import ArticleItem from '@/components/article/ArticleItem'
 
   import {getPersonalInfo, updateUserInfo} from '@/api/login'
+  import {getBlogInfo, getUserBlog} from '@/api/user'
   import {getHotTags} from '@/api/tag'
   import {listArchives} from '@/api/article'
 
@@ -94,7 +102,7 @@
     
     data() {
       return {
-        userInfo : {},
+        userInfo:{},
         name: '',
         contact: '',
         graduate: '',
@@ -108,36 +116,53 @@
       }
     },
     created() { 
-      //console.log('cookie')    
-      //console.log(this.$cookieStore.getCookie('id'))
       this.userInfo = this.$route.params.userInfo;
-      console.log("get userinfo")
-      console.log(this.userInfo)
       this.name = this.$route.params.userInfo.name;
       this.contact = this.$route.params.userInfo.contact;
       this.graduate = this.$route.params.userInfo.graduate;
       this.email = this.$route.params.userInfo.email;
       this.avatarUrl = this.$route.params.userInfo.avatarUrl;
       this.userID = this.$store.state.id;
-      //this.getBloggerInfo()
+      this.getBlogInfo()
+      this.getUserBlog()
     },
     methods: {
-      getBloggerInfo() {
+      getBlogInfo() {
         let that  = this;
-        getPersonalInfo(that.userID).then(data => {
+        getBlogInfo(that.userInfo.id).then(data => {
           that.BlogInfo = data.content
         }).catch(error => {
           if (error !== 'error') {
             that.$message({type: 'error', message: '用户信息加载失败!', showClose: true})
           }
         })
+        console.log(that.BlogInfo)
 
       },
+      getUserBlog() {
+        let that = this        
+        getUserBlog(that.userInfo.id, that.pageint, that.perpage).then(data => {
+          if (data.code == 0) {
+            //console.log(data.content)
+            that.articles = data.content;
+            //console.log(that.articles)
+          }else{
+            that.$message({type: 'error', message: data.reason, showClose: true})
+          }
+        }).catch(error => {
+          if (error !== 'error') {
+            that.$message({type: 'error', message: '文章加载失败!', showClose: true})
+          }
+        })      
+        //console.log(that.articles) 
+      },
       handleSizeChange(val) {
-        this.pageint = val;
+        this.perpage = val;
         console.log(`每页 ${val} 条`);
       },
       handleCurrentChange(val) {
+        this.pageint = val;
+        this.getUserBlog();
         console.log(`当前页: ${val}`);
       },
       handleAvatarSuccess(res, file) {

@@ -40,11 +40,6 @@ export default new Vuex.Store({
   },
   actions: {
     login({commit, state}, user) {
-
-      //console.log('login')
-      //console.log(user)
-      //modify      
-      //commit('SET_id', 1);
       return new Promise((resolve, reject) => {
         login(user.contact, user.password).then(data => {
             
@@ -62,8 +57,6 @@ export default new Vuex.Store({
     // 获取用户信息
     getUserInfo({commit, state}) {
       let that = this
-      //console.log("store getUserInfo")
-
       getUserInfo(state.id).then(data => {
           //console.log(data)
           if (data.content) {
@@ -92,9 +85,8 @@ export default new Vuex.Store({
       
     },
     // 退出
-    logout({commit, state}) {
-      
-      commit('SET_id', "")
+    logout({commit, state}) {      
+          commit('SET_id', "-1")
           commit('SET_name', "")
           commit('SET_avatarUrl', "")
           commit('SET_email', "")

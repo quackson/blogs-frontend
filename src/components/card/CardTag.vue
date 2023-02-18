@@ -1,13 +1,13 @@
 <template>
   <el-card :body-style="{ padding: '8px 18px'}" :shadow="hover" class="card-me-color">
-    <div slot="header" class="me-tag-header" style="font-size:35px;" >
+    <div slot="header" class="me-tag-header" style="font-size:25px;" >
       <span>{{title}}</span>
     </div>
 
     <ul class="me-tag-list">
       <li class="me-tag-item" v-for="t in tags" :key="t.id">
         <!--type="primary"-->
-        <el-button @click="tag(t.id)" size="medium" type="danger" style="font-size:18px;margin-top:1px;margin-left:1px;" round plain>{{t.name}}</el-button>
+        <el-button @click="tag(t.id)" size="medium" type="danger" style="font-size:10px;margin-top:1px;margin-left:1px;" round plain>{{t.name}}</el-button>
       </li>
     </ul>
   </el-card>

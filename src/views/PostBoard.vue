@@ -1,15 +1,15 @@
 <template>
 	<div class="markdown-container">
-		<div class="title">
+		<div class="title" style="font-size:20px;">
 			发布博客编辑器
 		</div>
 		<mavon-editor 
 				v-model="content" 
 				ref="md" 
 				@change="change" 
-				style="min-height: 700px"
+				style="min-height:800px;"
 		/>
-		<button @click="submit">提交</button>
+		<el-button @click="submit" style="font-size:20px;">提交</el-button>
   </div>
 </template>
 <script>
@@ -38,6 +38,7 @@
 			change(value, render){
 				// render 为 markdown 解析后的结果[html]
 				this.html = render;
+				
 			},
 			// 提交
 			submit(){
@@ -51,4 +52,8 @@
 	}
 </script>
 <style>
+.markdown-container{
+	width:70%;
+	height:100%;
+}
 </style>

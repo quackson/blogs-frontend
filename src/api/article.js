@@ -19,13 +19,14 @@ export function getArticles(query, page) {
 }
 
 export function getHotArtices(page, perpage) {
+  const info = {
+      page: page - 1,
+      perpage:perpage
+  }
   return request({
     url: '/public/post',
-    method: 'post',
-     params: {
-      page: page,
-      perpage:perpage
-    }
+    method: 'get',
+    params: info
   })
 }
 

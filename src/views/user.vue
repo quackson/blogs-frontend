@@ -19,7 +19,7 @@
             :current-page.sync="pageint"
             :page-size="perpage"
             layout="prev, pager, next, jumper"
-            :total="20">
+            :total="BlogInfo.blogCount">
           </el-pagination>
         </div>
 
@@ -27,7 +27,7 @@
 
       <el-aside>
 
-        <card-me :userInfo="userInfo" class="me-area" style="position:absolute; width:18%;"></card-me>
+        <card-me :userinfo="userInfo" class="me-area" style="position:absolute; width:18%;"></card-me>
         <card-tag :tags="hotTags" :title="tagtitle" class="me-tags" style="margin-top:21%;position:absolute; width:18%;"></card-tag>
 
       </el-aside>
@@ -75,166 +75,56 @@
       handleCurrentChange(val) {        
         this.pageint = val;
         let that = this
-        this.getHotArtices()
+        this.getUserBlog()
         console.log(`当前页: ${val}`);
       },
       getBlogInfo() {
         let that = this
-        /*
+        
         getBlogInfo(that.userInfo.id).then(data => {
           if (data.code == 0) {
-            that.BlogInfo = data.data.content;
+            that.BlogInfo = data.content;
           }else{
             that.$message({type: 'error', message: data.reason, showClose: true})
           }
         }).catch(error => {
           if (error !== 'error') {
-            that.$message({type: 'error', message: '加载用户信息!', showClose: true})
+            that.$message({type: 'error', message: '加载用户信息失败!', showClose: true})
           }
 
         })
-        */
+        
       },
       getUserBlog() {
         let that = this
-        /*
+        
         getUserBlog(that.userInfo.id, that.pageint, that.perpage).then(data => {
           if (data.code == 0) {
-            that.articleshow = data.data.content;
+            that.articleshow = data.content;
           }else{
             that.$message({type: 'error', message: data.reason, showClose: true})
           }
         }).catch(error => {
           if (error !== 'error') {
-            that.$message({type: 'error', message: '最热文章加载失败!', showClose: true})
+            that.$message({type: 'error', message: '文章加载失败!', showClose: true})
           }
 
         })
-        */
-        that.articleshow = [
-            {
-              id:0,
-              title: "article1",
-              content: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-              author: {
-                  id: 0,
-                  name: "testuser1",
-                  avatarUrl: "xxxx",
-                  contact: 'xxxxxxx',
-                  email: "xxxxxxxxxx",
-                  graduate: "xxxxxxxxxx"
-              },
-              tags: [
-                {
-                  id: 0,
-                  name:"test1",
-                  owner:{
-                            id: 0,
-                            name:  "test",
-                            avatarUrl:  "url",
-                            contact: "123123123",
-                            email: "123@pku.edu.cn",
-                            graduate: "peking University"
-                        },
-                  description:"xxxxxxxxxxxxxx"
-                },{
-                  id: 1,
-                  name:"t",
-                  owner:{
-                            id: 0,
-                            name:  "test",
-                            avatarUrl:  "url",
-                            contact: "123123123",
-                            email: "123@pku.edu.cn",
-                            graduate: "peking University"
-                        },
-                  description:"xxxxxxxxxxxxxx"
-              }],
-              avatar: "xxxxxxxxxxx",
-              comments: "xxxxxxxxxxxxxxx",
-              permission: {
-                  isPublic: true ,
-                  needReviewComment:  true
-              },
-              visits: 123,
-              likes: 11,
-              unreviewedCount: 12
-          }
-        ],
-        that.articleshow = that.articleshow.concat(that.articleshow);
-        that.pageint = 1;
+        
+        
       },
       getUserTags() {
         
-        let that = this;        
-        var color= ['primary', 'success', 'warning', 'danger', 'info', 'text']
-        var temp_data = [];
-        /*
+        let that = this;   
         getUserTags(that.userInfo.id).then(data => {
-          temp_data = data.data.content
+          that.getUserTags = data.content
         }).catch(error => {
           if (error !== 'error') {
-            that.$message({type: 'error', message: '最热标签加载失败!', showClose: true})
+            that.$message({type: 'error', message: '标签加载失败!', showClose: true})
           }
 
         })
-        */
-        temp_data = [
-          {
-            id: 0,
-            name:"test1",
-            owner:{
-                      id: 0,
-                      name:  "test",
-                      avatarUrl:  "url",
-                      contact: "123123123",
-                      email: "123@pku.edu.cn",
-                      graduate: "peking University"
-                  },
-            description:"xxxxxxxxxxxxxx"
-          },{
-            id: 1,
-            name:"t",
-            owner:{
-                      id: 0,
-                      name:  "test",
-                      avatarUrl:  "url",
-                      contact: "123123123",
-                      email: "123@pku.edu.cn",
-                      graduate: "peking University"
-                  },
-            description:"xxxxxxxxxxxxxx"
-          },{
-            id: 2,
-            name:"test1",
-            owner:{
-                      id: 0,
-                      name:  "test",
-                      avatarUrl:  "url",
-                      contact: "123123123",
-                      email: "123@pku.edu.cn",
-                      graduate: "peking University"
-                  },
-            description:"xxxxxxxxxxxxxx"
-          },{
-            id: 3,
-            name:"test1",
-            owner:{
-                      id: 0,
-                      name:  "test",
-                      avatarUrl:  "url",
-                      contact: "123123123",
-                      email: "123@pku.edu.cn",
-                      graduate: "peking University"
-                  },
-            description:"xxxxxxxxxxxxxx"
-          },
-        ]
-        for(var i=0; i<temp_data.length; i++) {
-          temp_data[i].color = color[i%6];
-        }
-        that.hotTags = temp_data;
-        console.log(this.hotTags)
+        
       },
 
     },

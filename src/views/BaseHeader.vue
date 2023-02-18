@@ -1,6 +1,5 @@
 <template>
   <el-header class="me-area">
-    <div class="background">
     <el-row class="me-header">
 
       <el-col :span="2" class="me-header-left">
@@ -34,7 +33,6 @@
       </el-col>
 
       <el-col :span="3">
-        <div class = "me-header-right">
         <el-menu :router=true 
           menu-trigger="click" 
           mode="horizontal" 
@@ -42,29 +40,27 @@
           background-color="#DEB887" 
           text-color="#696969">
 
-          <template v-if="!user.login">
-            <el-menu-item index="/login">
-              <el-button type="text" style = "font-size:20px;">登录</el-button>
-            </el-menu-item>
+          <div v-if="!user.login">
             <el-menu-item index="/register">
               <el-button type="text" style = "font-size:20px;">注册</el-button>
             </el-menu-item>
-          </template>
+            <el-menu-item index="/login">
+              <el-button type="text" style = "font-size:20px;">登录</el-button>
+            </el-menu-item>
+          </div>
 
-          <template v-else>
+          <div v-else>
               <el-menu-item>
                 <el-button @click="touser" type="text" style = "font-size:20px;">个人中心</el-button>
               </el-menu-item>
               <el-menu-item>
                 <el-button @click="logout" type="text" style = "font-size:20px;">退出</el-button>
               </el-menu-item>
-          </template>
+          </div>
         </el-menu>
-        </div>
       </el-col>
 
     </el-row>
-    </div>
   </el-header>
 </template>
 
@@ -107,15 +103,13 @@ import Cookies from 'js-cookie'
     created() {
       
     },
+
     methods: {
       logout() {
         let that = this
-        //that.$cookieStore.delCookie('id');
-        //that.$cookieStore.delCookie('JESSIONID');
-        //Cookies.remove('id')
-        //Cookies.remove('JESSIONID');
         this.$store.dispatch('logout').then(() => {
-          that.$cookieStore.delCookie('JESSIONID');
+            that.$message.success('已退出');
+            this.$router.push('/')
         }).catch((error) => {
           if (error !== 'error') {
             that.$message({message: error, type: 'error', showClose: true});

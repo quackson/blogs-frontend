@@ -1,28 +1,42 @@
 <template>
-  <el-card :shadow="hover">
-    <div style="text-align:center;" v-if="this.$store.state.id >= 0">
-      <el-avatar :size="small" src="userInfo.avatarUrl"></el-avatar>
+  <el-card >
+    <div style="text-align:center;" v-if="userinfo.avatarUrl">
+      <img src="userinfo.avatarUrl"
+          contain
+          height="100px"
+          width="100px">
+      </img>
     </div>
-    <div style="text-align:center;font-size=55px;" v-else>
-      <el-avatar :size="20" src="https://img0.baidu.com/it/u=3768301198,146336525&fm=253&fmt=auto&app=138&f=JPEG?w=220&h=220"></el-avatar>
+    <div style="text-align:center;" v-else>
+      <img src="https://img1.baidu.com/it/u=3834820558,1776972742&fm=253&fmt=auto&app=138&f=JPEG?w=400&h=400"
+          contain
+          height="100px"
+          width="100px">
+      </img>
     </div>
-    <h1 class="me-author-name">{{userInfo.name}}</h1>
-    <div class="follow" style="text-align:center;" @click="followUser" v-if="!ifme && followstate==0" >
-      <el-button type="primary" plain size="medium" style="font-size:18px;">Follow</el-button>
+    <h1 class="me-author-name">{{userinfo.name}}</h1>
+    <div style="text-align:center;margin-top:5%;" v-if="!logedIn">
+      <el-button type="info" plain size="medium" style="font-size:18px;">尚未登陆</el-button>
     </div>
-    <div class="follow" style="text-align:center;" v-else-if="!ifme && followstate==1" @click="unfollowUser">
-      <el-button type="info" plain size="medium" style="font-size:18px;">Unfollow</el-button>
+    <div class="follow" style="text-align:center;margin-top:5%;" @click="followUser" v-else-if="logedIn && (!ifme) && (!followstate)" >
+      <el-button type="primary" plain size="medium" style="font-size:18px;">关注</el-button>
+    </div>
+    <div class="follow" style="text-align:center;margin-top:5%;" v-else-if="logedIn && (!ifme) && followstate" @click="unfollowUser">
+      <el-button type="info" plain size="medium" style="font-size:18px;">取消关注</el-button>
+    </div>
+    <div style="text-align:center;margin-top:5%;" v-else-if="logedIn">
+      <el-button type="info" plain size="medium" style="font-size:18px;">已登陆</el-button>
     </div>
 
     <div class="me-author-description" style="text-align:center;margin-top:5%;margin-bottom:10%;">
     <el-col>
-      <span><i class="el-icon-message"></i>{{userInfo.email}}</span>
+      <span><i class="el-icon-message"></i>{{userinfo.email}}</span>
     </el-col>
     <el-col>
-      <span><i class="el-icon-phone"></i>{{userInfo.contact}}</span>
+      <span><i class="el-icon-phone"></i>{{userinfo.contact}}</span>
     </el-col>
     <el-col>
-      <span><i class="el-icon-location-outline"></i>{{userInfo.graduate}}</span>
+      <span><i class="el-icon-location-outline"></i>{{userinfo.graduate}}</span>
     </el-col>
     </div>
 
@@ -36,30 +50,40 @@
   export default {
     name: 'CardMe',
     props: {
-      userInfo: {
-          'name':String,
-          'email':String,
-          'contact':String,
-          'id':Number,
-          'graduate':String,
-          'avatarUrl':String
+      userinfo: {
+          name:String,
+          email:String,
+          contact:String,
+          id:Number,
+          graduate:String,
+          avatarUrl:String
         }
     },
     created() {     
-      this.ifme = (this.userInfo.id == this.$store.state.id)
-      //this.ifme = (this.$store.state.id == this.$store.state.id)
+      this.logedIn = this.$store.state.id >= 0;
+      this.ifme = (this.userinfo.id == this.$store.state.id)
       this.checkSate()
+      
     },
     data() {
       return {
-        followstate:-1,
-        ifme:false
+        followstate:false,
+        ifme:false,
+        logedIn:false
+      }
+    },
+    watch:{
+      'userinfo.id'(val){
+        this.logedIn = this.$store.state.id >= 0;
+        this.ifme = (this.userinfo.id == this.$store.state.id)
+        this.checkSate()
+        //console.log("initial card me")
       }
     },
     methods: {
       followUser(){
         let that = this
-        followUser(userInfo.userId).then(data => {
+        followUser(that.userinfo.userId).then(data => {
           if (data.code == 0) {
             that.followstate = 1;
           }else{
@@ -73,7 +97,7 @@
       },
       unfollowUser(){
         let that = this
-        unfollowUser(userInfo.userId).then(data => {
+        unfollowUser(that.userinfo.userId).then(data => {
           if (data.code == 0) {
             that.followstate = 0;
           }else{
@@ -87,15 +111,14 @@
       },
       checkSate(){
         let that=this;
-        var follow=false;
-        /*
-        checkSate(userInfo.userId).then(data => {
+        while (typeof(that.userinfo.id) == "undefined") {
+
+        }
+        console.log(that.userinfo)
+        console.log("checkSate")
+        checkSate(that.userinfo.id).then(data => {
           if (data.code == 0) {
-            if(data.content){
-              that.followstate = 1;
-            }else{
-              that.followstate = 0;
-            }
+            that.followstate = data.content;
           }else{
             that.$message({type: 'error', message: data.reason, showClose: true})
           }
@@ -103,13 +126,7 @@
           if (error !== 'error') {
             that.$message({type: 'error', message: '错误', showClose: true})
           }
-        */
-        follow = true;
-        if(follow){
-          that.followstate = 1;
-        }else{
-          that.followstate = 0;
-        }
+        })
       }
     }
   }

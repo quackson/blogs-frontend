@@ -81,12 +81,14 @@ service.interceptors.response.use(
     
   },
   error => {
+    
     Message({
       type: 'warning',
       showClose: true,
       message: '连接超时'
     })
     return Promise.reject('error')
+
   })
 
 export default service

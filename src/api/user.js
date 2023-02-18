@@ -10,7 +10,7 @@ export function getPersonalInfo(id) {
 
 export function followUser(uid) {
   return request({
-    url: '/blogger/'+uid+'/subsribe',
+    url: '/blogger/'+uid+'/subscribe',
     method: 'post'
   })
 }
@@ -24,8 +24,8 @@ export function unfollowUser(uid) {
 
 export function checkSate(uid) {
   return request({
-    url: '/blogger/'+uid+'/subsribed',
-    method: 'post'
+    url: '/blogger/'+uid+'/subscribed',
+    method: 'get'
   })
 }
 
@@ -37,25 +37,28 @@ export function getBlogInfo(uid) {
 }
 
 export function getUserBlog(uid, pageint, perpage) {
+  const info = {
+      page: pageint - 1, 
+      perpage: perpage
+  }
+  //console.log(info)
   return request({
     url: '/blog/'+uid+'/post',
     method: 'get',
-    params: {
-      page: pageint, 
-      perpage: perpage
-    }
+    params: info
   })
 }
 
 export function getUserTags(uid) {
 
-  return request({
-    url: '/blogger/'+uid+'/tag',
-    method: 'get',
-    params: {
+	const info = {
       page: 1, 
       perpage: 10
     }
+  return request({
+    url: '/blogger/'+uid+'/tag',
+    method: 'get',
+    params: info
   })
 }
 

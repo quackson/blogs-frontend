@@ -12,9 +12,9 @@
     <div class="me-artile-description">
       {{content}}
     </div>
-    <div class="me-article-footer">
+    <div class="me-article-footer"  @click="touser()">
 	  	<span class="me-article-author" style="font-size: 15px;">
-	    	<i class="me-icon-author"></i>&nbsp;{{author.name}}
+	    	<i class="me-icon-author"></i>&nbsp;{{blogger.name}}
 	    </span>
 
       <el-tag v-for="t in tags" :key="t.name" size="mini" type="success"  style="font-size: 15px;">{{t.name}}</el-tag>
@@ -31,8 +31,9 @@
     props: {
       id:Number,
       title: String,
-      content: String,
-      author: {
+      content:String,
+      detail: String,
+      blogger: {
           id: Number,
           name: String,
           avatarUrl: String,
@@ -41,22 +42,32 @@
           graduate: String
       },
       tags: Array,
-      avatar: String,
-      comments: String,
       permission: {
           isPublic: Boolean ,
           needReviewComment:  Boolean
       },
       visits: Number,
-      likes: Number,
-      unreviewedCount: Number
+      likes: Number
+    },
+    created(){
+      //console.log("one article")
+      //console.log(this.title)
     },
     data() {
       return {}
     },
     methods: {
       view(id) {
-        this.$router.push({path: `/view/${id}`})
+        //this.$router.push('/postboard/'+id)
+        this.$router.push('/postboard/'+id)
+      },
+      touser() {
+        this.$router.push({
+          name:'user',
+          params: {
+            userInfo:this.blogger
+          }
+        })
       }
     }
   }

@@ -67,7 +67,7 @@ import Cookies from 'js-cookie'
               //Cookies.set('id', that.$store.state.id)
               //this.$cookieStore.setCookie('JESSIONID', that.$store.state.id, 30);
               //this.$cookieStore.setCookie('id', that.$store.state.id, 30);
-              that.$router.go(-1)
+              that.$router.push('/')
             }).catch((error) => {
               if (error !== 'error') {
                 that.$message({message: error, type: 'error', showClose: true});

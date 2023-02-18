@@ -12,7 +12,7 @@
             </el-col>
           </el-row>
         </div>
-        <div class="block" style="margin-left:32%; bottom:1%; position: absolute;background-color:#FFEFD5;">
+        <div class="block" style="margin-left:32%; bottom:2%; position: absolute;background-color:#FFEFD5;">
           <el-pagination
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
@@ -26,12 +26,15 @@
       </el-main>
 
       <el-aside>
-
-        <card-me :userInfo="userInfo" :userMe="userMe" class="me-area" style="position:absolute; width:18%;"></card-me>
-        <card-tag :tags="hotTags" :title="tagtitle" class="me-tags" style="margin-top:21%;position:absolute; width:18%;"></card-tag>
-
-        <el-card class="search" style="margin-top:30%;position:absolute; width:18%;">
-          <h1 style="font-size:30px;">MultiSearch
+        <div style="position:absolute; width:18%; height:320px;">
+        <card-me :userinfo="userInfo" class="me-area" style="height:100%;"></card-me>
+        </div>
+        <div style="margin-top:300px; position:absolute; width:18%; height:280px;">
+        <card-tag :tags="hotTags" :title="tagtitle" class="me-tags"  style="height:100%;"></card-tag>
+        </div>
+        <div  style="margin-top:630px; position:absolute; width:18%; height:100px;">
+        <el-card class="search">
+          <h1 style="font-size:25px;">MultiSearch
             <span style="margin-left:30%;" text-color="#696969"><i class="el-icon-search" @click="search"></i></span>
           </h1>
           <el-col>搜索文本<el-input class="searchText" v-model="inputC" style="width:60%;margin-left:10%;"></el-input></el-col>
@@ -55,9 +58,9 @@
             style="margin-top:5%;"
           >
           </el-input>
-          <el-button v-else class="button-new-tag" size="small" @click="showInput"style="margin-top:5%;">+ New Tag</el-button>
+          <el-button v-else class="button-new-tag" size="small" @click="showInput"style="margin-top:5%;">+ 添加标签</el-button>
         </el-card>
-
+        </div>
       </el-aside>
 
     </el-container>
@@ -83,8 +86,8 @@
       this.userid = this.$store.state.id;  
       console.log(this.userid)
       this.getHotArtices()
-      this.getHotTags()
       this.getUserInfo()
+      this.getHotTags()
     },
     data() {
       return {
@@ -122,15 +125,6 @@
         this.inputVisible = false;
         this.inputValue = '';
       },
-      getMeInfo() {
-        this.userMe = {
-          'userName':'testme',
-          'email':'17xxx@pku.edu.cn',
-          'contactInfo':123123123,
-          'userId':0,
-          'graduate':'Peking University'
-        }
-      },
       search() {
         console.log("search");
         console.log(this.dynamicTags)
@@ -143,18 +137,26 @@
           return
         getUserInfo(that.userid).then(data => {
           that.userInfo = data.content
+          //console.log(that.userInfo)
         }).catch(error => {
           if (error !== 'error') {
             that.$message({type: 'error', message: '用户信息加载失败!', showClose: true})
           }
         })
       },
+      handleSizeChange(val) {
+        
+      },
+      handleCurrentChange(val) {        
+        this.pageint = val;
+        this.getHotArtices()
+      },
       getHotArtices() {
         let that = this
-        /*
-        getHotArtices().then(data => {
+        
+        getHotArtices(that.pageint, that.perpage).then(data => {
           if (data.code == 0) {
-            that.hotArticles = data.PostInfo;
+            that.articleshow = data.content;
           }else{
             that.$message({type: 'error', message: data.reason, showClose: true})
           }
@@ -164,132 +166,18 @@
           }
 
         })
-        */
-        that.articleshow = [
-            {
-              id:0,
-              title: "article1",
-              content: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-              author: {
-                  id: 0,
-                  name: "testuser1",
-                  avatarUrl: "xxxx",
-                  contact: 'xxxxxxx',
-                  email: "xxxxxxxxxx",
-                  graduate: "xxxxxxxxxx"
-              },
-              tags: [
-                {
-                  id: 0,
-                  name:"test1",
-                  owner:{
-                            id: 0,
-                            name:  "test",
-                            avatarUrl:  "url",
-                            contact: "123123123",
-                            email: "123@pku.edu.cn",
-                            graduate: "peking University"
-                        },
-                  description:"xxxxxxxxxxxxxx"
-                },{
-                  id: 1,
-                  name:"t",
-                  owner:{
-                            id: 0,
-                            name:  "test",
-                            avatarUrl:  "url",
-                            contact: "123123123",
-                            email: "123@pku.edu.cn",
-                            graduate: "peking University"
-                        },
-                  description:"xxxxxxxxxxxxxx"
-              }],
-              avatar: "xxxxxxxxxxx",
-              comments: "xxxxxxxxxxxxxxx",
-              permission: {
-                  isPublic: true ,
-                  needReviewComment:  true
-              },
-              visits: 123,
-              likes: 11,
-              unreviewedCount: 12
-          }
-        ],
-        that.articleshow = that.articleshow.concat(that.articleshow);
-        that.pageint = 1;
 
       },
-      getHotTags() {
-        
-        let that = this;        
-        var color= ['primary', 'success', 'warning', 'danger', 'info', 'text']
-        var temp_data = [];
-        /*
+      getHotTags() {        
+        let that = this;   
         getHotTags().then(data => {
-          temp_data = data.data
+          that.hotTags = data.content
         }).catch(error => {
           if (error !== 'error') {
             that.$message({type: 'error', message: '最热标签加载失败!', showClose: true})
           }
-
         })
-        */
-        temp_data = [
-          {
-            id: 0,
-            name:"test1",
-            owner:{
-                      id: 0,
-                      name:  "test",
-                      avatarUrl:  "url",
-                      contact: "123123123",
-                      email: "123@pku.edu.cn",
-                      graduate: "peking University"
-                  },
-            description:"xxxxxxxxxxxxxx"
-          },{
-            id: 1,
-            name:"t",
-            owner:{
-                      id: 0,
-                      name:  "test",
-                      avatarUrl:  "url",
-                      contact: "123123123",
-                      email: "123@pku.edu.cn",
-                      graduate: "peking University"
-                  },
-            description:"xxxxxxxxxxxxxx"
-          },{
-            id: 2,
-            name:"test1",
-            owner:{
-                      id: 0,
-                      name:  "test",
-                      avatarUrl:  "url",
-                      contact: "123123123",
-                      email: "123@pku.edu.cn",
-                      graduate: "peking University"
-                  },
-            description:"xxxxxxxxxxxxxx"
-          },{
-            id: 3,
-            name:"test1",
-            owner:{
-                      id: 0,
-                      name:  "test",
-                      avatarUrl:  "url",
-                      contact: "123123123",
-                      email: "123@pku.edu.cn",
-                      graduate: "peking University"
-                  },
-            description:"xxxxxxxxxxxxxx"
-          },
-        ]
-        for(var i=0; i<temp_data.length; i++) {
-          temp_data[i].color = color[i%6];
-        }
-        that.hotTags = temp_data;
-        console.log(this.hotTags)
+        
       },
 
     },
