@@ -111,8 +111,8 @@
       },
       checkSate(){
         let that=this;
-        while (typeof(that.userinfo.id) == "undefined") {
-
+        if (typeof(that.userinfo.id) == "undefined") {
+          return 
         }
         console.log(that.userinfo)
         console.log("checkSate")
