@@ -32,35 +32,7 @@
         <div style="margin-top:300px; position:absolute; width:18%; height:280px;">
         <card-tag :tags="hotTags" :title="tagtitle" class="me-tags"  style="height:100%;"></card-tag>
         </div>
-        <div  style="margin-top:630px; position:absolute; width:18%; height:100px;">
-        <el-card class="search">
-          <h1 style="font-size:25px;">MultiSearch
-            <span style="margin-left:30%;" text-color="#696969"><i class="el-icon-search" @click="search"></i></span>
-          </h1>
-          <el-col>搜索文本<el-input class="searchText" v-model="inputC" style="width:60%;margin-left:10%;"></el-input></el-col>
-          <el-tag
-            :key="tag"
-            v-for="tag in dynamicTags"
-            closable
-            :disable-transitions="false"
-            @close="handleClose(tag)"
-            style="margin-top:5%;">
-            {{tag}}
-          </el-tag>
-          <el-input
-            class="input-new-tag"
-            v-if="inputVisible"
-            v-model="inputValue"
-            ref="saveTagInput"
-            size="small"
-            @keyup.enter.native="handleInputConfirm"
-            @blur="handleInputConfirm"
-            style="margin-top:5%;"
-          >
-          </el-input>
-          <el-button v-else class="button-new-tag" size="small" @click="showInput"style="margin-top:5%;">+ 添加标签</el-button>
-        </el-card>
-        </div>
+        
       </el-aside>
 
     </el-container>

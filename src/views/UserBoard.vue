@@ -8,10 +8,12 @@
           <el-upload
             class="avatar-uploader"
             action=""
-            :show-file-list="false"
+            :on-change="handleChange"
+            :show-file-list="false" 
             :http-request="uploadavatar"
             style="margin-top:20%;margin-left:30%;">
-            <img v-if="avatarUrl" :src="avatarUrl" class="avatar">
+            <img v-if="avatarUrl && if2" :src="avatarUrl" class="avatar">
+            <img v-else-if="avatarUrl && !if2" :src="avatarUrl" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-row>
@@ -114,7 +116,8 @@
         fileList:[],
         perpage:5,
         pageint:1,
-        userID:-1
+        userID:-1,
+        if2: false
       }
     },
     watch:{
@@ -174,45 +177,41 @@
         this.getUserBlog();
         console.log(`当前页: ${val}`);
       },
-      uploadavatar(resource){
-        console.log("upload")
-        let pic = resource.file
-        console.log(pic)
-        let that = this
+      uploadavatar(resource) {
+        let fd = new FormData()
+        fd.append('file', resource.file)
+      
+        const that = this 
         
 
-        // 利用 axios+FormData 实现图片上传
-        let fd = new FormData()
-        // 把图片对象放到fd对象里边
-        fd.append('file', pic)
-        console.log("upload")
-        // axios上场
-        var newavatar = ''
         uploadavatar(fd, that.userID).then(data => {
-          if (data.code == 0) {
-            var avatarUrl = data.content
-            newavatar = 'http://10.129.167.54:8079' + avatarUrl
-            that.avatarUrl = newavatar
-            //console.log(that.avatarUrl)
-            var blogger = {
-              id: that.userID,
-              name:  that.name,
-              avatarUrl: avatarUrl,
-              contact: that.contact,
-              email:  that.email, 
-              graduate: that.graduate,
-            }
-            that.$store.dispatch('updateUserInfo', blogger).then(() => {              
-                  }).catch((error) => {
-                    if (error !== 'error') {
-                      that.$message({message: error, type: 'error', showClose: true});
-                    }
-                  })
-          }else{
+          if (data.code !== 0) {
             that.$message({type: 'error', message: data.reason, showClose: true})
+            return 
           }
+          const avatarUri = data.content
+          // that.avatarUrl = 'http://10.129.167.54:8079' + avatarUri
+          //that.avatarUrl = 'http://10.129.167.54:8079' + '/static/avatars/default'
+          that.avatarUrl = 'http://10.129.167.54:8079' + avatarUri
+          this.$forceUpdate()
+          //console.error("GET IT ")
+          that.if2 = !that.if2
+          //console.log(that.avatarUrl)
+          var blogger = {
+            id: that.userID,
+            name:  that.name,
+            avatarUrl: avatarUri,
+            contact: that.contact,
+            email:  that.email, 
+            graduate: that.graduate,
+          }
+          that.$store.dispatch('updateUserInfo', blogger).then(() => {})
+            .catch((error) => {
+              if (error === 'error') { return; }
+                that.$message({message: error, type: 'error', showClose: true});
+            })
         }).catch(error => {
-          //console.log(error)
+          console.error(error)
           if (error !== 'error') {
             that.$message({type: 'error', message: '头像上传失败!', showClose: true})
           }

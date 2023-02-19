@@ -59,7 +59,7 @@
     methods: {
       view(id) {
         //this.$router.push('/postboard/'+id)
-        this.$router.push('/postboard/'+id)
+        this.$router.push('/readblog/'+id)
       },
       touser() {
         this.$router.push({

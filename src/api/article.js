@@ -1,5 +1,5 @@
 import request from '@/request'
-
+import qs from 'qs'
 
 
 export function getHotArtices(page, perpage) {
@@ -66,15 +66,19 @@ export function getArticleById(id) {
 }
 
 export function getArtices(tag, content) {
-  const data = {
+  console.log(tag)
+  const params = {
     tags: tag,
     info: content
   }
   console.log("GET ARTICLES")
-  console.log(data)
+  console.log(params)
   return request({
     url: '/public/search',
     method: 'get',
-    params: qs.stringify(data, { indices: false})
+    params: params, 
+    paramsSerializer: params => {
+      return qs.stringify(params, { indices: false })
+    }
   })
 }
