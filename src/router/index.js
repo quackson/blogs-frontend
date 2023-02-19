@@ -48,6 +48,7 @@ const router = new Router({
         },
         {
           path: '/searchpage',
+          name: 'searchpage',
           component: r => require.ensure([], () => r(require('@/views/Searchpage')), 'searchpage')
         },
         {

@@ -1,22 +1,6 @@
 import request from '@/request'
 
 
-export function getArticles(query, page) {
-  return request({
-    url: '/articles',
-    method: 'get',
-    params: {
-      pageNumber: page.pageNumber,
-      pageSize: page.pageSize,
-      name: page.name,
-      sort: page.sort,
-      year: query.year,
-      month: query.month,
-      tagId: query.tagId,
-      categoryId: query.categoryId
-    }
-  })
-}
 
 export function getHotArtices(page, perpage) {
   const info = {
@@ -78,5 +62,19 @@ export function getArticleById(id) {
   return request({
     url: `/articles/${id}`,
     method: 'get'
+  })
+}
+
+export function getArtices(tag, content) {
+  const data = {
+    tags: tag,
+    info: content
+  }
+  console.log("GET ARTICLES")
+  console.log(data)
+  return request({
+    url: '/public/search',
+    method: 'get',
+    params: qs.stringify(data, { indices: false})
   })
 }

@@ -123,7 +123,7 @@ import Cookies from 'js-cookie'
                 'contact':this.$store.state.contact,
                 'id':this.$store.state.id,
                 'graduate':this.$store.state.graduate,
-                'avatarUrl:':this.$store.state.avatarUrl,
+                'avatarUrl':this.$store.state.avatarUrl,
             }
         //console.log(userInfo_)
         this.$router.push({

@@ -126,10 +126,16 @@
         this.inputValue = '';
       },
       search() {
-        console.log("search");
-        console.log(this.dynamicTags)
-        this.inputC= "";
-        this.dynamicTags=[]
+        var tags = this.dynamicTags
+        var content = this.inputC
+        console.log(tags)
+        this.$router.push({
+          name:'searchpage',
+          params:{
+            searchtags:tags,
+            searchcontent:content
+          }
+        })
       },
       getUserInfo() {
         let that = this

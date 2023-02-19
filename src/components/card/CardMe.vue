@@ -1,7 +1,7 @@
 <template>
   <el-card >
-    <div style="text-align:center;" v-if="userinfo.avatarUrl">
-      <img src="userinfo.avatarUrl"
+    <div style="text-align:center;" v-if="avatarUrl.length > 0">
+      <img :src="avatarUrl"
           contain
           height="100px"
           width="100px">
@@ -63,13 +63,13 @@
       this.logedIn = this.$store.state.id >= 0;
       this.ifme = (this.userinfo.id == this.$store.state.id)
       this.checkSate()
-      
     },
     data() {
       return {
         followstate:false,
         ifme:false,
-        logedIn:false
+        logedIn:false,
+        avatarUrl:''
       }
     },
     watch:{
@@ -78,12 +78,19 @@
         this.ifme = (this.userinfo.id == this.$store.state.id)
         this.checkSate()
         //console.log("initial card me")
+      },
+      'userinfo.avatarUrl'(val){
+        this.avatarUrl = 'http://10.129.167.54:8079' + this.userinfo.avatarUrl
+        console.log(this.userinfo)
       }
     },
     methods: {
       followUser(){
         let that = this
-        followUser(that.userinfo.userId).then(data => {
+        if (typeof(that.userinfo.id) == "undefined") {
+          return 
+        }
+        followUser(that.userinfo.id).then(data => {
           if (data.code == 0) {
             that.followstate = 1;
           }else{
@@ -97,7 +104,10 @@
       },
       unfollowUser(){
         let that = this
-        unfollowUser(that.userinfo.userId).then(data => {
+        if (typeof(that.userinfo.id) == "undefined") {
+          return 
+        }
+        unfollowUser(that.userinfo.id).then(data => {
           if (data.code == 0) {
             that.followstate = 0;
           }else{
@@ -114,8 +124,9 @@
         if (typeof(that.userinfo.id) == "undefined") {
           return 
         }
+        that.avatarUrl = 'http://10.129.167.54:8079' + that.userinfo.avatarUrl
         console.log(that.userinfo)
-        console.log("checkSate")
+        console.log(that.avatarUrl)
         checkSate(that.userinfo.id).then(data => {
           if (data.code == 0) {
             that.followstate = data.content;

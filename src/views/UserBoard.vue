@@ -7,10 +7,9 @@
         <el-row>
           <el-upload
             class="avatar-uploader"
-            action="https://jsonplaceholder.typicode.com/posts/"
+            action=""
             :show-file-list="false"
-            :on-success="handleAvatarSuccess"
-            :before-upload="beforeAvatarUpload"
+            :http-request="uploadavatar"
             style="margin-top:20%;margin-left:30%;">
             <img v-if="avatarUrl" :src="avatarUrl" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -19,9 +18,11 @@
         <el-row>
           <el-upload
             class="upload-demo"
-            action="https://jsonplaceholder.typicode.com/posts/"
+            action=""
             :on-change="handleChange"
-            :file-list="fileList3"
+            :show-file-list="false" 
+            :file-list="fileList"
+            :http-request="uploadavatar"
             style="margin-left:40%;margin-top:5%;">
             <el-button size="small" type="primary" style="font-size:100%">点击上传</el-button>
           </el-upload>
@@ -93,7 +94,7 @@
   import ArticleItem from '@/components/article/ArticleItem'
 
   import {getPersonalInfo, updateUserInfo} from '@/api/login'
-  import {getBlogInfo, getUserBlog} from '@/api/user'
+  import {getBlogInfo, getUserBlog, uploadavatar} from '@/api/user'
   import {getHotTags} from '@/api/tag'
   import {listArchives} from '@/api/article'
 
@@ -110,18 +111,26 @@
         avatarUrl:'',
         BlogInfo : {},
         articles:[],
+        fileList:[],
         perpage:5,
         pageint:1,
         userID:-1
       }
     },
+    watch:{
+      'avatarUrl'(oval, val){
+        console.log("avatarUrl")
+      }
+    },
     created() { 
+      console.log(this.$route.params.userInfo)
+      console.log(this.$route.params.userInfo.avatarUrl)
       this.userInfo = this.$route.params.userInfo;
       this.name = this.$route.params.userInfo.name;
       this.contact = this.$route.params.userInfo.contact;
       this.graduate = this.$route.params.userInfo.graduate;
       this.email = this.$route.params.userInfo.email;
-      this.avatarUrl = this.$route.params.userInfo.avatarUrl;
+      this.avatarUrl = 'http://10.129.167.54:8079' + this.$route.params.userInfo.avatarUrl;
       this.userID = this.$store.state.id;
       this.getBlogInfo()
       this.getUserBlog()
@@ -165,9 +174,54 @@
         this.getUserBlog();
         console.log(`当前页: ${val}`);
       },
+      uploadavatar(resource){
+        console.log("upload")
+        let pic = resource.file
+        console.log(pic)
+        let that = this
+        
+
+        // 利用 axios+FormData 实现图片上传
+        let fd = new FormData()
+        // 把图片对象放到fd对象里边
+        fd.append('file', pic)
+        console.log("upload")
+        // axios上场
+        var newavatar = ''
+        uploadavatar(fd, that.userID).then(data => {
+          if (data.code == 0) {
+            var avatarUrl = data.content
+            newavatar = 'http://10.129.167.54:8079' + avatarUrl
+            that.avatarUrl = newavatar
+            //console.log(that.avatarUrl)
+            var blogger = {
+              id: that.userID,
+              name:  that.name,
+              avatarUrl: avatarUrl,
+              contact: that.contact,
+              email:  that.email, 
+              graduate: that.graduate,
+            }
+            that.$store.dispatch('updateUserInfo', blogger).then(() => {              
+                  }).catch((error) => {
+                    if (error !== 'error') {
+                      that.$message({message: error, type: 'error', showClose: true});
+                    }
+                  })
+          }else{
+            that.$message({type: 'error', message: data.reason, showClose: true})
+          }
+        }).catch(error => {
+          //console.log(error)
+          if (error !== 'error') {
+            that.$message({type: 'error', message: '头像上传失败!', showClose: true})
+          }
+        })      
+        
+      },
       handleAvatarSuccess(res, file) {
-        var avatarUrlNew = URL.createObjectURL(file.raw);
-        this.avatarUrl = avatarUrlNew
+        //var avatarUrlNew = URL.createObjectURL(file.raw);
+        //this.avatarUrl = avatarUrlNew
       },
       beforeAvatarUpload(file) {
         const isJPG = file.type === 'image/jpeg';

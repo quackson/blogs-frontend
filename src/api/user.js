@@ -17,7 +17,7 @@ export function followUser(uid) {
 
 export function unfollowUser(uid) {
   return request({
-    url: '/blooger/'+uid+'/unsubscribe',
+    url: '/blogger/'+uid+'/unsubscribe',
     method: 'post'
   })
 }
@@ -71,4 +71,18 @@ export function updateUserInfo(uid, userInfo) {
     method: 'post',
     data: userInfo
   })
+}
+
+export function uploadavatar(fd, userID){
+  var file = {
+    file: fd
+  }
+	return request({
+		url:"/blogger/"+userID+"/avatar",
+		method:'patch',
+    headers: {
+          'Content-type': 'multipart/form-data'
+        },
+		data: fd
+	})
 }
