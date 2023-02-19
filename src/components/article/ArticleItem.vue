@@ -2,7 +2,7 @@
   <el-card class="me-area" :body-style="{ padding: '16px'}" style="width:90%;margin-left:5%;margin-right:5%;">
     <div class="me-article-header">
 
-      <a @click="view(id)" class="me-article-title">{{title}}</a>
+      <a @click="view" class="me-article-title">{{title}}</a>
       <span class="me-pull-right me-article-count" style="font-size: 15px;">
 	    	<i class="el-icon-view"></i>&nbsp;{{visits}}
         <i class="el-icon-star-off"></i>&nbsp;{{likes}}
@@ -59,7 +59,13 @@
     methods: {
       view(id) {
         //this.$router.push('/postboard/'+id)
-        this.$router.push('/readblog/'+id)
+        this.$router.push({
+          name:'readblog',
+          params:{
+            userid:this.blogger.id,
+            blogid:this.id
+          }
+        })
       },
       touser() {
         this.$router.push({

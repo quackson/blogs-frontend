@@ -78,6 +78,7 @@ const router = new Router({
         },
         {
           path: '/readblog',
+          name: 'readblog',
           component: r => require.ensure([], () => r(require('@/views/ReadBlog')), 'readblog')
         },
         {
