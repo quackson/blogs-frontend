@@ -8,7 +8,7 @@
                     </h1>
                     <div class="my-view-author">
                         <a>
-                            <img class="my-view-picture" :src="article.author.avator"></img>
+                            <img class="my-view-picture" :src="article.author.avatar"></img>
                         </a>
                         <div class="my-view-info">
                             <span>{{ article.author.nickname }}</span>
@@ -20,7 +20,7 @@
                         </el-button>     
                     </div>
                     <div class="my-view-content">
-                        <markdown-editor :editor=article.editor></markdown-editor>
+                        <markdown-editor :editor=article.editor style="min-height: 700px;"></markdown-editor>
                     </div>
                     <div class="my-view-end">
                         <el-alart
@@ -67,8 +67,12 @@
 
 <script>
     import MarkdownEditor from '@/components/markdown/MarkdownEditor'
+    import {getBlogdetail} from '@/api/blog'
     export default {
         name: 'ReadBlog',
+        created() {
+            this.getBlog()
+        },
         data() {
             return {
                 article: {
@@ -77,7 +81,7 @@
                     viewCounts: 0,
                     commentCounts: 0,
                     author: {
-                        avator: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
+                        avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
                         nickname: '软工学生',
                     },
                     editor: {
@@ -101,6 +105,22 @@
                 return 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
             },
         },
+        methods:{
+            getBlog(){
+                let that = this
+                getBlogdetail(that.$route.params.bid).then(data => {
+                    console.log(data)
+                    console.log('getblog')
+                    that.article.id == data.id
+                    that.article.title == data.title
+                    that.article.author.avatar == data.author.avatarURL
+                }).catch(error => {
+                    if(error !== 'error') {
+                        that.$message({type: 'error', message:'文章加载失败',showClose: true})
+                    }
+                })
+            }
+        },
         components: {
             'markdown-editor': MarkdownEditor,
         }
@@ -109,10 +129,12 @@
 <style>
     .my-view-body{
         margin: 100px auto 140px;
+        height: 100%;
+        width: 80%;
     }
 
     .my-view-container{
-        width: 700px;
+        width: 100%;
     }
 
     .el-main {
