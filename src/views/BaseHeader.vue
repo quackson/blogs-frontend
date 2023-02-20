@@ -28,7 +28,7 @@
             v-model="input"
             clearable
             style="width:50%; margin-top:1%; font-size:18px;">
-            <i slot="prefix" class="el-input__icon el-icon-search"></i>
+            <i slot="prefix" class="el-input__icon el-icon-search" @click="search"></i>
           </el-input>    
       </el-col>
 
@@ -68,7 +68,7 @@
 
 <script>
 import {getUserInfo} from '@/api/login'
-import Cookies from 'js-cookie'
+
 
   export default {
     name: 'BaseHeader',
@@ -105,6 +105,18 @@ import Cookies from 'js-cookie'
     },
 
     methods: {
+      search() {
+        var tags = []
+        var content = this.input
+        console.log(tags)
+        this.$router.push({
+          name:'searchpage',
+          params:{
+            searchtags:tags,
+            searchcontent:content
+          }
+        })
+      },
       logout() {
         let that = this
         this.$store.dispatch('logout').then(() => {

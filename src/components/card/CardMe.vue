@@ -1,5 +1,6 @@
 <template>
-  <el-card >
+  <div class="loading" v-if="!HaveLoad"></div>
+  <el-card v-else>
     <div style="text-align:center;" v-if="avatarUrl.length > 0">
       <img :src="avatarUrl"
           contain
@@ -61,6 +62,8 @@
     },
     created() {     
       this.logedIn = this.$store.state.id >= 0;
+      if(!this.logedIn) 
+          this.HaveLoad = true;
       this.ifme = (this.userinfo.id == this.$store.state.id)
       this.checkSate()
     },
@@ -69,7 +72,8 @@
         followstate:false,
         ifme:false,
         logedIn:false,
-        avatarUrl:''
+        avatarUrl:'',
+        HaveLoad:false
       }
     },
     watch:{
@@ -81,7 +85,7 @@
       },
       'userinfo.avatarUrl'(val){
         this.avatarUrl = 'http://10.129.167.54:8079' + this.userinfo.avatarUrl
-        console.log(this.userinfo)
+        //console.log(this.userinfo)
       }
     },
     methods: {
@@ -125,14 +129,15 @@
           return 
         }
         that.avatarUrl = 'http://10.129.167.54:8079' + that.userinfo.avatarUrl
-        console.log(that.userinfo)
-        console.log(that.avatarUrl)
+        //console.log(that.userinfo)
+        //console.log(that.avatarUrl)
         checkSate(that.userinfo.id).then(data => {
           if (data.code == 0) {
             that.followstate = data.content;
           }else{
             that.$message({type: 'error', message: data.reason, showClose: true})
           }
+          this.HaveLoad = true;
         }).catch(error => {
           if (error !== 'error') {
             that.$message({type: 'error', message: '错误', showClose: true})

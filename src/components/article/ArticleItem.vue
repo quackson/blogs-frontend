@@ -57,7 +57,7 @@
       return {}
     },
     methods: {
-      view(id) {
+      view() {
         //this.$router.push('/postboard/'+id)
         this.$router.push({
           name:'readblog',
