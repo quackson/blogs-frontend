@@ -6,3 +6,10 @@ export function getBlogdetail(bid,pid){
         method: 'get'
     })
 }
+
+export function getBlogContentDetail(detail){
+    return request({
+        url: `${detail}`,
+        method: 'get'
+    })
+}

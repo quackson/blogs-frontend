@@ -16,7 +16,8 @@
                             <span>评论 {{ article.commentCounts }}</span>
                         </div>
                         <el-button
-                            v-if = "this.article.author.id == this.$store.state.id">
+                            v-if = "this.article.author.id == this.$store.state.id"
+                            @click="editblog()">
                             编辑
                         </el-button>     
                     </div>
@@ -68,7 +69,7 @@
 
 <script>
     import MarkdownEditor from '@/components/markdown/MarkdownEditor'
-    import {getBlogdetail} from '@/api/blog'
+    import {getBlogdetail,getBlogContentDetail} from '@/api/blog'
     export default {
         name: 'ReadBlog',
         created() {
@@ -110,15 +111,20 @@
         methods:{
             getBlog(){
                 let that = this
-                console.log("store")
-                console.log(this.$store.state.id)
+                // console.log("store")
+                // console.log(this.$store.state.id)
                 getBlogdetail(that.$route.params.userid,this.$route.params.blogid).then(data => {
-                    console.log('getblog')
-                    console.log(data)
+                    // console.log('getblog')
+                    // console.log(data)
                     that.article.author.id = data.content.blogger.id
                     that.article.id = data.content.id
                     that.article.title = data.content.title
-                    that.article.editor.value = data.content.content
+                    console.log("detail",data.content.detail)
+                    getBlogContentDetail(data.content.detail).then(data => {
+                        console.log(data)
+                        that.article.editor.value = data.content
+                    })
+                    that.article.author.avatar = data.content.avatar
                     that.article.author.nickname = data.content.blogger.name
                     that.article.viewCounts = data.content.visits
                 }).catch(error => {
@@ -126,6 +132,9 @@
                         that.$message({type: 'error', message:'文章加载失败',showClose: true})
                     }
                 })
+            },
+            editblog(){
+
             }
         },
         components: {

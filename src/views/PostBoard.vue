@@ -8,13 +8,49 @@
 					resize="none"
 					type="textarea"
 					autosize
-					v-model="title"
+					v-model="contents.title"
 					placeholder="请输入文章标题"
 					class="my-write-input">
 			</el-input>
 		</div>
+		<div class="my-write-content">
+			<el-input
+					resize="none"
+					type="textarea"
+					autosize
+					v-model="contents.content"
+					placeholder="请输入文章简介"
+					class="my-write-input">
+			</el-input>
+		</div>
+		<el-card class="search">
+			<el-col>
+				添加标签
+			</el-col>
+			<el-tag
+            	:key="tag"
+            	v-for="tag in contents.tags"
+            	closable
+            	:disable-transitions="false"
+            	@close="handleClose(tag)"
+            	style="margin-top:5%;">
+            	{{tag}}
+          	</el-tag>
+        	<el-input
+            	class="input-new-tag"
+            	v-if="inputVisible"
+            	v-model="inputValue"
+            	ref="saveTagInput"
+            	size="small"
+            	@keyup.enter.native="handleInputConfirm"
+            	@blur="handleInputConfirm"
+            	style="margin-top:5%;"
+          	>
+          	</el-input>
+          	<el-button v-else class="button-new-tag" size="small" @click="showInput" style="margin-top:5%;">+ 添加标签</el-button>
+        </el-card>
 		<mavon-editor 
-				v-model="content" 
+				v-model="contents.detail" 
 				ref="md" 
 				@change="change" 
 				style="min-height:800px;"
@@ -40,21 +76,50 @@
 		components: {
 			mavonEditor,
 		},
+		created(){
+			this.getInfo()
+		},
 		data() {
 			return {
 				content:'', // 输入的markdown
 				html:'',    // 及时转的html
 				title:'',
+				inputVisible: false,
+				inputValue: '',
 				options:[{
-					value: '选项一',
+					value: true,
 					label: '公开'
 				},
 				{
-					value: '选项二',
+					value: false,
 					label: '私密'
 				},
 				],
-				value: ''
+				value: '',
+				contents:{
+					id:-1,
+					title:'',
+					content:'',
+					detail:'',
+					author:{
+						id:-1,
+						name:'',
+						avatarURL:'',
+						contact:'',
+						email:'',
+						graduate:'',
+					},
+					tags:[],
+					avatar:'',
+					comments:'',
+					permission:{
+						isPublic:true,
+						needReviewComment:false,
+					},
+					visits:0,
+					likes:0,
+
+				},
 			}
 		},
 		methods: {
@@ -66,10 +131,38 @@
 			},
 			// 提交
 			submit(){
-				console.log(this.content);
-				console.log(this.html);
-				console.log(this.title)
-			}
+				let that = this
+				that.contents.permission.isPublic = this.value
+				// console.log(this.content);
+				// console.log(this.html);
+				// console.log(this.title)
+				console.log(that.contents)
+				console.log(that.contents.permission.isPublic)
+			},
+			getInfo(){
+				let that = this
+				// console.log(this.$store.state)
+				// console.log(this.$store.state.email)
+				that.contents.author = this.$store.state
+				// console.log(this.contents.author)
+			},
+			handleClose(tag) {
+        		this.contents.tags.splice(this.contents.tags.indexOf(tag), 1);
+      		},
+			showInput() {
+        		this.inputVisible = true;
+        		this.$nextTick(_ => {
+          			this.$refs.saveTagInput.$refs.input.focus();
+        		});
+      		},
+			handleInputConfirm() {
+        		let inputValue = this.inputValue;
+        		if (inputValue) {
+          			this.contents.tags.push(inputValue);
+        		}
+        		this.inputVisible = false;
+        		this.inputValue = '';
+     		},
 		},
 		mounted() {
 
@@ -80,5 +173,19 @@
 .markdown-container{
 	width:70%;
 	height:100%;
+}
+
+.button-new-tag {
+    margin-left: 10px;
+    height: 32px;
+    line-height: 30px;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.input-new-tag {
+	width: 90px;
+    margin-left: 10px;
+    vertical-align: bottom;
 }
 </style>
