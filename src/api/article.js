@@ -66,13 +66,13 @@ export function getArticleById(id) {
 }
 
 export function getArtices(tag, content) {
-  console.log(tag)
+  //console.log(tag)
   const params = {
     tags: tag,
     info: content
   }
-  console.log("GET ARTICLES")
-  console.log(params)
+  //console.log("GET ARTICLES")
+  //console.log(params)
   return request({
     url: '/public/search',
     method: 'get',
