@@ -15,7 +15,8 @@
                             <span>阅读 {{ article.viewCounts }}</span>
                             <span>评论 {{ article.commentCounts }}</span>
                         </div>
-                        <el-button>
+                        <el-button
+                            v-if = "this.article.author.id == this.$store.state.id">
                             编辑
                         </el-button>     
                     </div>
@@ -81,6 +82,7 @@
                     viewCounts: 0,
                     commentCounts: 0,
                     author: {
+                        id: '',
                         avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
                         nickname: '软工学生',
                     },
@@ -108,12 +110,17 @@
         methods:{
             getBlog(){
                 let that = this
-                getBlogdetail(that.$route.params.bid).then(data => {
-                    console.log(data)
+                console.log("store")
+                console.log(this.$store.state.id)
+                getBlogdetail(that.$route.params.userid,this.$route.params.blogid).then(data => {
                     console.log('getblog')
-                    that.article.id == data.id
-                    that.article.title == data.title
-                    that.article.author.avatar == data.author.avatarURL
+                    console.log(data)
+                    that.article.author.id = data.content.blogger.id
+                    that.article.id = data.content.id
+                    that.article.title = data.content.title
+                    that.article.editor.value = data.content.content
+                    that.article.author.nickname = data.content.blogger.name
+                    that.article.viewCounts = data.content.visits
                 }).catch(error => {
                     if(error !== 'error') {
                         that.$message({type: 'error', message:'文章加载失败',showClose: true})
