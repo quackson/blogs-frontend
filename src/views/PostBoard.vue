@@ -71,6 +71,7 @@
 <script>
 	import { mavonEditor } from 'mavon-editor'
 	import 'mavon-editor/dist/css/index.css'
+	import {postBlog} from '@/api/blog'
 	export default {
 		// 注册
 		components: {
@@ -136,8 +137,10 @@
 				// console.log(this.content);
 				// console.log(this.html);
 				// console.log(this.title)
-				console.log(that.contents)
-				console.log(that.contents.permission.isPublic)
+				// console.log(that.contents)
+				// console.log(that.contents.permission.isPublic)
+				console.log(that.contents.author.id)
+				postBlog(that.contents.author.id,that.contents)
 			},
 			getInfo(){
 				let that = this

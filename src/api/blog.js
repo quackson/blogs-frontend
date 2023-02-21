@@ -13,3 +13,12 @@ export function getBlogContentDetail(detail){
         method: 'get'
     })
 }
+
+export function postBlog(bid,content){
+    console.log(content)
+    return request({
+        url: `/blog/${bid}/post`,
+        method: 'post',
+        params: content,
+    })
+}
