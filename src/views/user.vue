@@ -52,7 +52,17 @@
   export default {
     name: 'user',
     created() {      
-      this.userInfo =  this.$route.params.userInfo;
+      let userInfo = this.$route.params.userInfo;
+      console.log(userInfo)
+      if (typeof(userInfo) == "undefined") { 
+      // 读取this.row数据 
+        this.userInfo = JSON.parse(sessionStorage.getItem('userInfo')); 
+      }else { 
+        this.userInfo = this.$route.params.userInfo; 
+        // 存储this.row数据 
+        sessionStorage.setItem('userInfo',JSON.stringify(this.userInfo));
+      } 
+      //this.userInfo =  this.$route.params.userInfo;
       this.getBlogInfo()
       this.getUserBlog()
       this.getUserTags()

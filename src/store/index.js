@@ -3,16 +3,25 @@ import Vue from 'vue'
 import {getToken, setToken, removeToken} from '@/request/token'
 import {login, getUserInfo, logout, register} from '@/api/login'
 
+import sessionStorage from '@/store/sessionStorage'
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    id: -1,
-    name:  "",
-    avatarUrl:  "",
-    contact: "",
-    email: "",
-    graduate: "",    
+    //id: -1,
+    //name:  "",
+    //avatarUrl:  "",
+    //contact: "",
+    //email: "",
+    //graduate: "", 
+    id: sessionStorage.getValue('id'),
+    name: sessionStorage.getValue('name'),
+    avatarUrl: sessionStorage.getValue('avatarUrl'),
+    contact: sessionStorage.getValue('contact'),
+    email: sessionStorage.getValue('email'),
+    graduate: sessionStorage.getValue('graduate'), 
+
     token: getToken(),
   },
   mutations: {
@@ -21,21 +30,27 @@ export default new Vuex.Store({
     },
     SET_id: (state, ID) => {
       state.id = ID;
+      sessionStorage.setValue('id', ID);
     },
     SET_name: (state, name) => {
       state.name = name
+      sessionStorage.setValue('name', name);
     },
     SET_avatarUrl: (state, avatarUrl) => {
       state.avatarUrl = avatarUrl
+      sessionStorage.setValue('avatarUrl', avatarUrl);
     },
     SET_contact: (state, contact) => {
       state.contact = contact
+      sessionStorage.setValue('contact', contact);
     },
     SET_email: (state, email) => {
       state.email = email
+      sessionStorage.setValue('email', email);
     },
     SET_graduate: (state, graduate) => {
       state.graduate = graduate
+      sessionStorage.setValue('graduate', graduate);
     }
   },
   actions: {

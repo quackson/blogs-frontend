@@ -126,14 +126,15 @@
       }
     },
     created() { 
-      console.log(this.$route.params.userInfo)
-      console.log(this.$route.params.userInfo.avatarUrl)
+      //console.log(this.$route.params.userInfo)
+      //console.log(this.$route.params.userInfo.avatarUrl)
       this.userInfo = this.$route.params.userInfo;
-      this.name = this.$route.params.userInfo.name;
-      this.contact = this.$route.params.userInfo.contact;
-      this.graduate = this.$route.params.userInfo.graduate;
-      this.email = this.$route.params.userInfo.email;
-      this.avatarUrl = 'http://10.129.167.54:8079' + this.$route.params.userInfo.avatarUrl;
+      //this.name = this.$route.params.userInfo.name;
+      this.name = this.$store.state.name;
+      this.contact = this.$store.state.contact;
+      this.graduate = this.$store.state.graduate;
+      this.email = this.$store.state.email;
+      this.avatarUrl = 'http://10.129.167.54:8079' + this.$store.state.avatarUrl;
       this.userID = this.$store.state.id;
       this.getBlogInfo()
       this.getUserBlog()
@@ -141,8 +142,9 @@
     methods: {
       getBlogInfo() {
         let that  = this;
-        getBlogInfo(that.userInfo.id).then(data => {
+        getBlogInfo(that.userID).then(data => {
           that.BlogInfo = data.content
+          that.userInfo = that.BlogInfo.blogger
         }).catch(error => {
           if (error !== 'error') {
             that.$message({type: 'error', message: '用户信息加载失败!', showClose: true})
@@ -153,7 +155,7 @@
       },
       getUserBlog() {
         let that = this        
-        getUserBlog(that.userInfo.id, that.pageint, that.perpage).then(data => {
+        getUserBlog(that.userID, that.pageint, that.perpage).then(data => {
           if (data.code == 0) {
             //console.log(data.content)
             that.articles = data.content;

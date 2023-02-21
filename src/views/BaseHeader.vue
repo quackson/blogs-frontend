@@ -1,6 +1,6 @@
 <template>
   <el-header class="me-area">
-    <el-row class="me-header">
+    <el-row class="me-header" style="display:flex;flex-wrap:wrap;justify-content:left">
 
       <el-col :span="2" class="me-header-left">
         <router-link to="/" class="home">
@@ -38,9 +38,9 @@
           mode="horizontal" 
           active-text-color="#DEB887" 
           background-color="#DEB887" 
-          text-color="#696969">
+          text-color="#F8F8F8">
 
-          <div v-if="!user.login">
+          <div v-if="!user.login" style="display:flex;flex-wrap:wrap;justify-content:left">
             <el-menu-item index="/register">
               <el-button type="text" style = "font-size:20px;">注册</el-button>
             </el-menu-item>

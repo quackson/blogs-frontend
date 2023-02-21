@@ -26,7 +26,7 @@
       <el-button type="info" plain size="medium" style="font-size:18px;">取消关注</el-button>
     </div>
     <div style="text-align:center;margin-top:5%;" v-else-if="logedIn">
-      <el-button type="info" plain size="medium" style="font-size:18px;">已登陆</el-button>
+      <el-button type="primary" plain size="medium" style="font-size:18px;" @click="toWrite">写博客</el-button>
     </div>
 
     <div class="me-author-description" style="text-align:center;margin-top:5%;margin-bottom:10%;">
@@ -122,6 +122,9 @@
             that.$message({type: 'error', message: "错误", showClose: true})
           }
         })
+      },
+      toWrite(){
+        this.$router.push("/postboard")
       },
       checkSate(){
         let that=this;

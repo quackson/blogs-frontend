@@ -34,7 +34,7 @@
         </div>
         <div  style="margin-top:630px; position:absolute; width:18%; height:100px;">
         <el-card class="search">
-          <h1 style="font-size:25px;">rch
+          <h1 style="font-size:25px;">multisearch
             <span style="margin-left:30%;" text-color="#696969"><i class="el-icon-search" @click="search"></i></span>
           </h1>
           <el-col>搜索文本<el-input class="searchText" v-model="inputC" style="width:60%;margin-left:10%;"></el-input></el-col>
