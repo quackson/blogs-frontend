@@ -9,7 +9,7 @@
 
       <el-form ref="userForm" :model="userForm" :rules="rules">
         <el-form-item prop="contact">
-          <el-input placeholder="用户名" v-model="userForm.contact"></el-input>
+          <el-input placeholder="注册联系方式" v-model="userForm.contact"></el-input>
         </el-form-item>
 
         <el-form-item prop="password">

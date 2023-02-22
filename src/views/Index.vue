@@ -29,10 +29,10 @@
         <div style="position:absolute; width:18%; height:320px;">
         <card-me :userinfo="userInfo" class="me-area" style="height:100%;"></card-me>
         </div>
-        <div style="margin-top:300px; position:absolute; width:18%; height:280px;">
+        <div style="margin-top:305px; position:absolute; width:18%; height:200px;">
         <card-tag :tags="hotTags" :title="tagtitle" class="me-tags"  style="height:100%;"></card-tag>
         </div>
-        <div  style="margin-top:630px; position:absolute; width:18%; height:100px;">
+        <div  style="margin-top:550px; position:absolute; width:18%; height:100px;">
         <el-card class="search">
           <h1 style="font-size:25px;">multisearch
             <span style="margin-left:30%;" text-color="#696969"><i class="el-icon-search" @click="search"></i></span>

@@ -52,7 +52,7 @@ export function getUserBlog(uid, pageint, perpage) {
 export function getUserTags(uid) {
 
 	const info = {
-      page: 1, 
+      page: 0, 
       perpage: 10
     }
   return request({

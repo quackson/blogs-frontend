@@ -127,7 +127,7 @@
         
         let that = this;   
         getUserTags(that.userInfo.id).then(data => {
-          that.getUserTags = data.content
+          that.hotTags = data.content
         }).catch(error => {
           if (error !== 'error') {
             that.$message({type: 'error', message: '标签加载失败!', showClose: true})

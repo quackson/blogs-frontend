@@ -3,7 +3,7 @@
 
     <el-container >
       <sidebar> </sidebar>
-      <el-col :span="4">
+      <el-col :span="6">
         <el-row>
           <el-upload
             class="avatar-uploader"
