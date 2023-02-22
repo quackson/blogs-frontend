@@ -77,76 +77,90 @@
 		components: {
 			mavonEditor,
 		},
-		created(){
+		created() {
 			this.getInfo()
 		},
 		data() {
 			return {
-				content:'', // 输入的markdown
-				html:'',    // 及时转的html
-				title:'',
-				inputVisible: false,
-				inputValue: '',
-				options:[{
-					value: true,
-					label: '公开'
-				},
-				{
-					value: false,
-					label: '私密'
-				},
+				content:		'', // 输入的markdown
+				html:			'',    // 及时转的html
+				title:			'',
+				inputVisible:	false,
+				inputValue: 	'',
+				options: [
+					{ value: true,  label: '公开' },
+					{ value: false, label: '私密' },
 				],
 				value: '',
-				contents:{
-					id:-1,
-					title:'',
-					content:'',
-					detail:'',
-					author:{
-						id:-1,
-						name:'',
-						avatarURL:'',
-						contact:'',
-						email:'',
-						graduate:'',
+				contents: {
+					id: 		-1,
+					title: 		'',
+					content: 	'',
+					detail: 	'',
+					author: {
+						id: 		-1,
+						name: 		'',
+						avatarURL:	'',
+						contact:	'',
+						email:		'',
+						graduate:	'',
 					},
-					tags:[],
-					avatar:'',
-					comments:'',
-					permission:{
-						isPublic:true,
-						needReviewComment:false,
+					tags: [],
+					avatar: '',
+					comments: '',
+					permission: {
+						isPublic: true,
+						needReviewComment: false,
 					},
-					visits:0,
-					likes:0,
+					visits: 0,
+					likes: 0,
 
 				},
 			}
 		},
 		methods: {
 			// 所有操作都会被解析重新渲染
-			change(value, render){
+			change(value, render) {
 				// render 为 markdown 解析后的结果[html]
 				this.html = render;
 				
 			},
 			// 提交
-			submit(){
+			submit() {
 				let that = this
-				that.contents.permission.isPublic = this.value
-				// console.log(this.content);
-				// console.log(this.html);
-				// console.log(this.title)
-				// console.log(that.contents)
-				// console.log(that.contents.permission.isPublic)
-				console.log(that.contents.author.id)
-				console.log(that.contents.detail)
-				postBlog(that.contents.author.id,that.contents).then(data => {
-					console.log(that.contents.author.id,data.content,that.content)
-					editDetail(that.contents.author.id,data.content,that.content)
+
+				const postInfo = that.contents
+
+				postInfo.permission.isPublic = this.value
+				const authorId = postInfo.author.id
+
+				// 在函数中也可以定义临时的函数.
+				// 我们要用`await`语法, 所以这个函数需要被标记为async
+				async function addPost() {
+					console.log(`authorId = ${authorId}, detail = ${postInfo.detail}`)
+					let ret = await postBlog(authorId, postInfo) // await可以阻塞调用, 直到API接口请求完成, 才将获取到的数据赋值给ret
+					// 对了, 接口必须被标记为async才能使用await语法. 可以去看看postBlog函数的定义, 也加上async标记了. 
+					if (ret.code != 0) {
+						console.error(ret.reason)
+						return	// 这里我图省事儿了. 正常应该抛出异常的, 这样就可以在下面的`addPost().catch()`中统一处理了.
+					}
+					let postId = ret.content
+
+					ret = await editDetail(authorId, postId, that.content)
+					// Duplicated code. Should be "abstracted out"
+					if (ret.code != 0) {
+						console.error(ret.reason)
+						return
+					} 
+				} 
+				// 上面只是定义了方法, 这里调用. 
+				addPost().catch(e => {
+					// Handle network error
+					console.log("Network ERROR!")
+					console.error(e)
 				})
 			},
-			getInfo(){
+			getInfo() {
 				let that = this
 				// console.log(this.$store.state)
 				// console.log(this.$store.state.email)

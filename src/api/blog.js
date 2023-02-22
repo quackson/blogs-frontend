@@ -1,6 +1,6 @@
 import request from '@/request'
 
-export function getBlogdetail(bid,pid){
+export function getBlogdetail(bid,pid) {
     return request({
         url: `/blog/${bid}/post/${pid}`,
         method: 'get'
@@ -14,7 +14,7 @@ export function getBlogContentDetail(detail){
     })
 }
 
-export function postBlog(bid,content){
+export async function postBlog(bid, content) {
     console.log(content)
     return request({
         url: `/blog/${bid}/post`,
@@ -23,14 +23,18 @@ export function postBlog(bid,content){
     })
 }
 
-export function editDetail(bid,pid,detail){
-    console.log(bid,pid,detail)
+export async function editDetail(bid, pid, detail) {
+    console.log(`
+        bid    = ${bid}
+        pid    = ${pid}
+        detail = ${detail}
+    `)
     return request({
         url: `/blog/${bid}/post/${pid}/detail`,
         method: 'patch',
         data: detail,
         headers: {
-            'Content-Type': 'application/json; charset=utf-8'
+            'Content-Type': 'text/plain; charset=utf-8'
         }
     })
 }
