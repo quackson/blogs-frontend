@@ -34,7 +34,7 @@
             	:disable-transitions="false"
             	@close="handleClose(tag)"
             	style="margin-top:5%;">
-            	{{tag}}
+            	{{tag.name}}
           	</el-tag>
         	<el-input
             	class="input-new-tag"
@@ -50,7 +50,7 @@
           	<el-button v-else class="button-new-tag" size="small" @click="showInput" style="margin-top:5%;">+ 添加标签</el-button>
         </el-card>
 		<mavon-editor 
-				v-model="contents.detail" 
+				v-model="content" 
 				ref="md" 
 				@change="change" 
 				style="min-height:800px;"
@@ -71,7 +71,7 @@
 <script>
 	import { mavonEditor } from 'mavon-editor'
 	import 'mavon-editor/dist/css/index.css'
-	import {postBlog} from '@/api/blog'
+	import {postBlog,editDetail} from '@/api/blog'
 	export default {
 		// 注册
 		components: {
@@ -140,7 +140,11 @@
 				// console.log(that.contents)
 				// console.log(that.contents.permission.isPublic)
 				console.log(that.contents.author.id)
-				postBlog(that.contents.author.id,that.contents)
+				console.log(that.contents.detail)
+				postBlog(that.contents.author.id,that.contents).then(data => {
+					console.log(that.contents.author.id,data.content,that.content)
+					editDetail(that.contents.author.id,data.content,that.content)
+				})
 			},
 			getInfo(){
 				let that = this
@@ -150,6 +154,7 @@
 				// console.log(this.contents.author)
 			},
 			handleClose(tag) {
+				
         		this.contents.tags.splice(this.contents.tags.indexOf(tag), 1);
       		},
 			showInput() {
@@ -161,6 +166,7 @@
 			handleInputConfirm() {
         		let inputValue = this.inputValue;
         		if (inputValue) {
+					inputValue = {name:inputValue};
           			this.contents.tags.push(inputValue);
         		}
         		this.inputVisible = false;

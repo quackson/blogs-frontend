@@ -124,7 +124,8 @@
                         console.log(data)
                         that.article.editor.value = data.content
                     })
-                    that.article.author.avatar = data.content.avatar
+                    that.article.author.avatar = 'http://10.129.167.54:8079'+data.content.blogger.avatarUrl
+                    // console.log(that.article.author.avatar)
                     that.article.author.nickname = data.content.blogger.name
                     that.article.viewCounts = data.content.visits
                 }).catch(error => {
