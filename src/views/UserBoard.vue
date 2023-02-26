@@ -204,7 +204,7 @@
             graduate: that.graduate,
           }
           that.$store.dispatch('updateUserInfo', blogger).then(() => {
-            this.$forceUpdate();
+            this.$router.go(0)
           })
             .catch((error) => {
               if (error === 'error') { return; }
