@@ -67,3 +67,11 @@ export function getcommentdetail(bid,pid,all,page,ppage){
         }
     })
 }
+
+export function editPost(bid,pid,detail){
+    return request({
+        url:`/blog/${bid}/post/${pid}`,
+        method:'patch',
+        data:detail
+    })
+}
