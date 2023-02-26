@@ -1,4 +1,5 @@
 import request from '@/request'
+import { method } from 'lodash'
 
 export function getBlogdetail(bid,pid) {
     return request({
@@ -35,6 +36,34 @@ export async function editDetail(bid, pid, detail) {
         data: detail,
         headers: {
             'Content-Type': 'text/plain; charset=utf-8'
+        }
+    })
+}
+
+export function postcommentdetail(bid,pid,comment,reply){
+    console.log(`
+        bid    = ${bid}
+        pid    = ${pid}
+        comment = ${comment}
+        reply = ${reply}
+    `)
+    console.log(comment)
+    return request({
+        url: `/blog/${bid}/post/${pid}/comment`,
+        method: 'post',
+        data: comment,
+        params:{reply: 0},
+    })
+}
+
+export function getcommentdetail(bid,pid,all,page,ppage){
+    return request ({
+        url: `/blog/${bid}/post/${pid}/comment`,
+        method: 'get',
+        params:{
+            all:all,
+            page:page,
+            perpage:ppage,
         }
     })
 }
