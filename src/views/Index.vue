@@ -139,25 +139,9 @@
       },
       getUserInfo() {
         let that = this
-        var storage = {
-          id: this.$store.id,
-          name:this.$store.name,
-          avatarUrl:this.$store.$avatarUrl,
-          graduate:this.$store.graduate,
-          email:this.$store.email,
-          contact:this.$store.contact
-        }
-        that.userInfo = storage
-        console.log(that.userInfo)
-        if (typeof(that.userInfo.id) == "undefined") {
-          this.$store.dispatch('logout').then(() => {
-              return;
-          }).catch((error) => {
-            if (error !== 'error') {
-              that.$message({message: error, type: 'error', showClose: true});
-            }
-          })
-        }
+        
+        if(that.userid < 0)  return;
+        
         
         getUserInfo(that.userid).then(data => {
           that.userInfo = data.content          

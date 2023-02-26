@@ -98,7 +98,8 @@ import {getUserInfo} from '@/api/login'
       }
     },
     created() {
-      
+      if(this.$store.state.avatarUrl == 'false')
+        this.logout()
     },
 
     methods: {

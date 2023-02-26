@@ -102,21 +102,32 @@ export default new Vuex.Store({
     // 退出
     logout({commit, state}) {      
           commit('SET_id', "-1")
+          sessionStorage.setValue('id', -1);
           commit('SET_name', "")
+          sessionStorage.setValue('name', '');
           commit('SET_avatarUrl', "")
+          sessionStorage.setValue('avatarUrl', '');
           commit('SET_email', "")
+          sessionStorage.setValue('email', '');
           commit('SET_graduate', "")
+          sessionStorage.setValue('graduate', "");
           commit('SET_contact', "")
+          sessionStorage.setValue('contact', "");
     },
     // 前端 登出
     fedLogOut({commit}) {
-      
-      commit('SET_id', "")
-      commit('SET_name', "")
-      commit('SET_avatarUrl', "")
-      commit('SET_email', "")
-      commit('SET_graduate', "")
-      commit('SET_contact', "")
+      commit('SET_id', "-1")
+          sessionStorage.setValue('id', -1);
+          commit('SET_name', "")
+          sessionStorage.setValue('name', '');
+          commit('SET_avatarUrl', "")
+          sessionStorage.setValue('avatarUrl', '');
+          commit('SET_email', "")
+          sessionStorage.setValue('email', '');
+          commit('SET_graduate', "")
+          sessionStorage.setValue('graduate', "");
+          commit('SET_contact', "")
+          sessionStorage.setValue('contact', "");
       resolve()
     },
 
