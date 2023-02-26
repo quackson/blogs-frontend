@@ -142,8 +142,7 @@
         if (that.userid < 0)
           return
         getUserInfo(that.userid).then(data => {
-          that.userInfo = data.content
-          //console.log(that.userInfo)
+          that.userInfo = data.content          
         }).catch(error => {
           if (error !== 'error') {
             that.$message({type: 'error', message: '用户信息加载失败!', showClose: true})

@@ -12,8 +12,7 @@
             :show-file-list="false" 
             :http-request="uploadavatar"
             style="margin-top:20%;margin-left:30%;">
-            <img v-if="avatarUrl && if2" :src="avatarUrl" class="avatar">
-            <img v-else-if="avatarUrl && !if2" :src="avatarUrl" class="avatar">
+            <img v-if="avatarUrl" :src="avatarUrl" :key="if2" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-row>
@@ -192,7 +191,7 @@
           // that.avatarUrl = 'http://10.129.167.54:8079' + avatarUri
           //that.avatarUrl = 'http://10.129.167.54:8079' + '/static/avatars/default'
           that.avatarUrl = 'http://10.129.167.54:8079' + avatarUri
-          this.$forceUpdate()
+          //this.$forceUpdate()
           //console.error("GET IT ")
           that.if2 = !that.if2
           //console.log(that.avatarUrl)
@@ -204,7 +203,9 @@
             email:  that.email, 
             graduate: that.graduate,
           }
-          that.$store.dispatch('updateUserInfo', blogger).then(() => {})
+          that.$store.dispatch('updateUserInfo', blogger).then(() => {
+            this.$forceUpdate();
+          })
             .catch((error) => {
               if (error === 'error') { return; }
                 that.$message({message: error, type: 'error', showClose: true});
