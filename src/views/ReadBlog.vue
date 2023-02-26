@@ -165,7 +165,14 @@
                 })
             },
             editblog(){
-
+                console.log(this.$route.params.userid,this.$route.params.blogid)
+                this.$router.push({
+                    name:'postboard',
+                    params:{
+                        userid:this.$route.params.userid,
+                        blogid:this.$route.params.blogid,
+                    }
+                })
             },
             postcomment(){
                 console.log(this.commentinfo)

@@ -71,7 +71,7 @@
 <script>
 	import { mavonEditor } from 'mavon-editor'
 	import 'mavon-editor/dist/css/index.css'
-	import {postBlog,editDetail} from '@/api/blog'
+	import {postBlog,editDetail,getBlogdetail,getBlogContentDetail,editPost} from '@/api/blog'
 	export default {
 		// 注册
 		components: {
@@ -132,32 +132,49 @@
 				const postInfo = that.contents
 
 				postInfo.permission.isPublic = this.value
-				const authorId = postInfo.author.id
+				console.log('submit')
+				if(that.$route.params.userid){
+					console.log('have param')
+					editPost(that.$route.params.userid,that.$route.params.blogid,postInfo).then(data => {
+						console.log('editpost')
+						console.log(data)
+					})
+					editDetail(that.$route.params.userid,that.$route.params.blogid,that.content).then(data => {
+						console.log('editdetail')
+						console.log(data)
+					})
+				}
+				else{
+					const authorId = postInfo.author.id
+					// 在函数中也可以定义临时的函数.
+					// 我们要用`await`语法, 所以这个函数需要被标记为async
+					async function addPost() {
+						console.log(`authorId = ${authorId}, detail = ${postInfo.detail}`)
+						let ret = await postBlog(authorId, postInfo) // await可以阻塞调用, 直到API接口请求完成, 才将获取到的数据赋值给ret
+						// 对了, 接口必须被标记为async才能使用await语法. 可以去看看postBlog函数的定义, 也加上async标记了. 
+						if (ret.code != 0) {
+							console.error(ret.reason)
+							return	// 这里我图省事儿了. 正常应该抛出异常的, 这样就可以在下面的`addPost().catch()`中统一处理了.
+						}
+						let postId = ret.content
 
-				// 在函数中也可以定义临时的函数.
-				// 我们要用`await`语法, 所以这个函数需要被标记为async
-				async function addPost() {
-					console.log(`authorId = ${authorId}, detail = ${postInfo.detail}`)
-					let ret = await postBlog(authorId, postInfo) // await可以阻塞调用, 直到API接口请求完成, 才将获取到的数据赋值给ret
-					// 对了, 接口必须被标记为async才能使用await语法. 可以去看看postBlog函数的定义, 也加上async标记了. 
-					if (ret.code != 0) {
-						console.error(ret.reason)
-						return	// 这里我图省事儿了. 正常应该抛出异常的, 这样就可以在下面的`addPost().catch()`中统一处理了.
-					}
-					let postId = ret.content
-
-					ret = await editDetail(authorId, postId, that.content)
-					// Duplicated code. Should be "abstracted out"
-					if (ret.code != 0) {
-						console.error(ret.reason)
-						return
+						ret = await editDetail(authorId, postId, that.content)
+						// Duplicated code. Should be "abstracted out"
+						if (ret.code != 0) {
+							console.error(ret.reason)
+							return
+						} 
 					} 
-				} 
-				// 上面只是定义了方法, 这里调用. 
-				addPost().catch(e => {
-					// Handle network error
-					console.log("Network ERROR!")
-					console.error(e)
+					// 上面只是定义了方法, 这里调用. 
+					addPost().catch(e => {
+						// Handle network error
+						console.log("Network ERROR!")
+						console.error(e)
+					})
+				}
+				
+				that.$router.push({
+					name:'userboard'
 				})
 			},
 			getInfo() {
@@ -166,6 +183,18 @@
 				// console.log(this.$store.state.email)
 				that.contents.author = this.$store.state
 				// console.log(this.contents.author)
+				if(that.$route.params.userid){
+					getBlogdetail(that.$route.params.userid,that.$route.params.blogid).then(data => {
+						console.log(data)
+						that.contents = data.content
+						console.log(that.contents)
+						getBlogContentDetail(data.content.detail).then(data => {
+							console.log(data)
+							that.content = data.content
+							console.log("all gets!")
+						})
+					})
+				}
 			},
 			handleClose(tag) {
 				

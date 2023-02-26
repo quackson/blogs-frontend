@@ -74,6 +74,7 @@ const router = new Router({
         },
         {
           path: '/postboard',
+          name: 'postboard',
           component: r => require.ensure([], () => r(require('@/views/PostBoard')), 'postboard')
         },
         {
