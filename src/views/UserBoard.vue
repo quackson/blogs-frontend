@@ -126,10 +126,7 @@
       }
     },
     created() { 
-      //console.log(this.$route.params.userInfo)
-      //console.log(this.$route.params.userInfo.avatarUrl)
       this.userInfo = this.$route.params.userInfo;
-      //this.name = this.$route.params.userInfo.name;
       this.name = this.$store.state.name;
       this.contact = this.$store.state.contact;
       this.graduate = this.$store.state.graduate;

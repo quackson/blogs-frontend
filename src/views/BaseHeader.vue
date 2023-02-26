@@ -41,19 +41,16 @@
           text-color="#F8F8F8">
 
           <div v-if="!user.login" style="display:flex;flex-wrap:wrap;justify-content:left">
-            <el-menu-item index="/register">
-              <el-button type="text" style = "font-size:20px;">注册</el-button>
-            </el-menu-item>
-            <el-menu-item index="/login">
-              <el-button type="text" style = "font-size:20px;">登录</el-button>
+            <el-menu-item >
+              <el-button @click="toregister" type="text" style = "font-size:20px;">注册</el-button>
+              <el-button @click="tologin" type="text" style = "font-size:20px;">登录</el-button>
             </el-menu-item>
           </div>
 
           <div v-else>
               <el-menu-item>
                 <el-button @click="touser" type="text" style = "font-size:20px;">个人中心</el-button>
-              </el-menu-item>
-              <el-menu-item>
+              
                 <el-button @click="logout" type="text" style = "font-size:20px;">退出</el-button>
               </el-menu-item>
           </div>
@@ -105,6 +102,12 @@ import {getUserInfo} from '@/api/login'
     },
 
     methods: {
+      toregister(){
+        this.$router.push('/register')
+      },
+      tologin(){
+        this.$router.push('/login')
+      },
       search() {
         var tags = []
         var content = this.input
