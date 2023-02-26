@@ -139,8 +139,26 @@
       },
       getUserInfo() {
         let that = this
-        if (that.userid < 0)
-          return
+        var storage = {
+          id: this.$store.id,
+          name:this.$store.name,
+          avatarUrl:this.$store.$avatarUrl,
+          graduate:this.$store.graduate,
+          email:this.$store.email,
+          contact:this.$store.contact
+        }
+        that.userInfo = storage
+        console.log(that.userInfo)
+        if (typeof(that.userInfo.id) == "undefined") {
+          this.$store.dispatch('logout').then(() => {
+              return;
+          }).catch((error) => {
+            if (error !== 'error') {
+              that.$message({message: error, type: 'error', showClose: true});
+            }
+          })
+        }
+        
         getUserInfo(that.userid).then(data => {
           that.userInfo = data.content          
         }).catch(error => {
