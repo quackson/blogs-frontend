@@ -75,3 +75,15 @@ export function editPost(bid,pid,detail){
         data:detail
     })
 }
+
+export function uploadimagedetail(uid,formdata){
+    console.log(formdata)
+    return request({
+        url:`/blogger/${uid}/attachment`,
+        method:'post',
+        data:formdata,
+        headers: {
+            'Content-Type': 'multipart/form-data' 
+        },
+    })
+}

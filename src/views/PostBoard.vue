@@ -51,8 +51,9 @@
         </el-card>
 		<mavon-editor 
 				v-model="content" 
-				ref="md" 
+				ref=md
 				@change="change" 
+				@imgAdd="$imgAdd"
 				style="min-height:800px;"
 		/>
 		<div class="select">
@@ -71,7 +72,7 @@
 <script>
 	import { mavonEditor } from 'mavon-editor'
 	import 'mavon-editor/dist/css/index.css'
-	import {postBlog,editDetail,getBlogdetail,getBlogContentDetail,editPost} from '@/api/blog'
+	import {postBlog,editDetail,getBlogdetail,getBlogContentDetail,editPost,uploadimagedetail} from '@/api/blog'
 	export default {
 		// 注册
 		components: {
@@ -215,6 +216,19 @@
         		this.inputVisible = false;
         		this.inputValue = '';
      		},
+			$imgAdd(pos,$file){
+				// console.log("1111")
+				let formdata = new FormData()
+				formdata.append('name',"image")
+				formdata.append('file',$file)
+				console.log(this.contents.author.id)
+				uploadimagedetail(this.contents.author.id,formdata).then(data => {
+					let url = `http://10.129.167.54//file/blogger/${this.contents.author.id}/attachment/${data.content}`
+					// console.log(url)
+					// console.log(pos)
+					this.$refs.md.$img2Url(pos,url)
+				})
+			}
 		},
 		mounted() {
 
