@@ -9,12 +9,6 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    //id: -1,
-    //name:  "",
-    //avatarUrl:  "",
-    //contact: "",
-    //email: "",
-    //graduate: "", 
     id: sessionStorage.getValue('id'),
     name: sessionStorage.getValue('name'),
     avatarUrl: sessionStorage.getValue('avatarUrl'),

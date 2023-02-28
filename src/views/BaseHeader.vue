@@ -70,11 +70,6 @@ import {getUserInfo} from '@/api/login'
   export default {
     name: 'BaseHeader',
     beforeMount () {
-      Vue.prototype.$cookieStore = {
-        setCookie,
-        getCookie,
-        delCookie
-      }
     },
     props: {
       activeIndex: String,
@@ -90,7 +85,7 @@ import {getUserInfo} from '@/api/login'
     },
     computed: {
       user() {
-        let login = this.$store.state.id >= 0
+        let login = (this.$store.state.id >= 0 && this.$store.state.id != false)
         let avatarUrl = this.$store.state.avatarUrl
         return {
           login, avatarUrl

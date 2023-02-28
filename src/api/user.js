@@ -78,8 +78,9 @@ export function uploadavatar(fd, userID){
     file: fd
   }
 	return request({
-		url:"/blogger/"+userID+"/avatar",
+		url:"/blogger/"+userID+"/avatar?",
 		method:'patch',
+    cache: false,
     headers: {
           'Content-type': 'multipart/form-data'
         },

@@ -12,7 +12,7 @@
             :show-file-list="false" 
             :http-request="uploadavatar"
             style="margin-top:20%;margin-left:30%;">
-            <img v-if="avatarUrl" :src="avatarUrl" :key="if2" class="avatar">
+            <img v-if="avatarUrl" :src="avatarUrl" :key="filekey" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-row>
@@ -116,7 +116,8 @@
         perpage:5,
         pageint:1,
         userID:-1,
-        if2: false
+        filekey:1,
+        baseurl:'',
       }
     },
     watch:{
@@ -130,7 +131,9 @@
       this.contact = this.$store.state.contact;
       this.graduate = this.$store.state.graduate;
       this.email = this.$store.state.email;
-      this.avatarUrl = 'http://10.129.167.54:8079' + this.$store.state.avatarUrl;
+      var timenow = new Date().getTime();
+      this.avatarUrl = 'http://10.129.167.54:8079' + this.$store.state.avatarUrl + '?id=' + timenow;
+      this.baseurl = this.$store.state.avatarUrl;
       this.userID = this.$store.state.id;
       this.getBlogInfo()
       this.getUserBlog()
@@ -188,12 +191,11 @@
             return 
           }
           const avatarUri = data.content
-          // that.avatarUrl = 'http://10.129.167.54:8079' + avatarUri
-          //that.avatarUrl = 'http://10.129.167.54:8079' + '/static/avatars/default'
-          that.avatarUrl = 'http://10.129.167.54:8079' + avatarUri
-          //this.$forceUpdate()
-          //console.error("GET IT ")
-          that.if2 = !that.if2
+          var timenow = new Date().getTime();
+          that.avatarUrl = 'http://10.129.167.54:8079' + avatarUri +'?id=' + timenow
+          //console.log(that.avatarUrl)
+          that.baseurl = avatarUri
+          that.filekey = Math.random();
           //console.log(that.avatarUrl)
           var blogger = {
             id: that.userID,
@@ -204,7 +206,8 @@
             graduate: that.graduate,
           }
           that.$store.dispatch('updateUserInfo', blogger).then(() => {
-            this.$router.go(0)
+            //this.$router.go(0)
+            //that.$message('upload success');
           })
             .catch((error) => {
               if (error === 'error') { return; }
@@ -239,7 +242,7 @@
         var blogger = {
           id: that.userID,
           name:  that.name,
-          avatarUrl:that.avatarUrl,
+          avatarUrl:that.baseurl,
           contact: that.contact,
           email:  that.email, 
           graduate: that.graduate,

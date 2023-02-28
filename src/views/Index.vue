@@ -27,12 +27,25 @@
 
       <el-aside>
         <div style="position:absolute; width:18%; height:320px;">
-        <card-me :userinfo="userInfo" class="me-area" style="height:100%;"></card-me>
+        <card-me :userinfo="userInfo" class="me-area" style="height:100%;" v-if="this.userid"></card-me>
+        <el-card style="height:100%;" v-else>
+          <div style="text-align:center;">
+            <img src="https://img1.baidu.com/it/u=3834820558,1776972742&fm=253&fmt=auto&app=138&f=JPEG?w=400&h=400"
+                contain
+                height="100px"
+                width="100px">
+            </img>
+          </div>
+          <h1 class="me-author-name">访问用户</h1>
+          <div style="text-align:center;margin-top:5%;">
+            <el-button type="primary" plain size="medium" style="font-size:18px;margin-top:10%;" @click="login">登录</el-button>
+          </div>
+        </el-card>
         </div>
-        <div style="margin-top:305px; position:absolute; width:18%; height:260px;">
+        <div style="margin-top:305px; position:absolute; width:18%; height:300;">
         <card-tag :tags="hotTags" :title="tagtitle" class="me-tags"  style="height:100%;"></card-tag>
         </div>
-        <div  style="margin-top:610px; position:absolute; width:18%; height:100px;">
+        <div  style="margin-top:650px; position:absolute; width:18%; height:100px;">
         <el-card class="search">
           <h1 style="font-size:25px;">multisearch
             <span style="margin-left:30%;" text-color="#696969"><i class="el-icon-search" @click="search"></i></span>
@@ -139,8 +152,7 @@
       },
       getUserInfo() {
         let that = this
-        
-        if(that.userid < 0)  return;
+        if(that.userid < 0 || that.userid == false)  return;
         
         
         getUserInfo(that.userid).then(data => {
@@ -153,6 +165,9 @@
       },
       handleSizeChange(val) {
         
+      },
+      login(){
+        this.$router.push("/login")
       },
       handleCurrentChange(val) {        
         this.pageint = val;
@@ -247,4 +262,10 @@
     z-index:-1;
     position: absolute;
 }
+.me-author-name {
+    margin-top:10%;
+    text-align: center;
+    font-size: 30px;
+    border-bottom: 1px solid #5FB878;
+  }
 </style>

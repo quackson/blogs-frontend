@@ -84,7 +84,9 @@
         //console.log("initial card me")
       },
       'userinfo.avatarUrl'(val){
-        this.avatarUrl = 'http://10.129.167.54:8079' + this.userinfo.avatarUrl
+
+          var timenow = new Date().getTime();
+        this.avatarUrl = 'http://10.129.167.54:8079' + this.userinfo.avatarUrl + '?id=' + timenow;
         //console.log(this.userinfo)
       }
     },
